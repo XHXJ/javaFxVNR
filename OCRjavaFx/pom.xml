@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.xhxj</groupId>
     <artifactId>orc</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <name>orc</name>
     <description>Demo project for Spring Boot</description>
 

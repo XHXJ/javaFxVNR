@@ -129,7 +129,7 @@ public class MainController {
         AnchorPane.setLeftAnchor(iv2, 30.0);
 
         Scene scene = new Scene(root);
-        primaryStage.setTitle("下划线君的OCR翻译机 v0.3");
+        primaryStage.setTitle("下划线君的OCR翻译机 v0.4");
         primaryStage.setScene(scene);
         primaryStage.setHeight(500);
         primaryStage.setWidth(500);
