@@ -147,7 +147,7 @@ public class ListController {
 
         Scene scene = new Scene(anchorPane);
         mainMarquee = new Stage();
-        mainMarquee.setTitle("翻译测试");
+        mainMarquee.setTitle("翻译区域管理");
         mainMarquee.setScene(scene);
         mainMarquee.show();
 

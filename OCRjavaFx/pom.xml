@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.xhxj</groupId>
     <artifactId>orc</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>orc</name>
     <description>Demo project for Spring Boot</description>
 
@@ -49,6 +49,7 @@
             <scope>test</scope>
         </dependency>
 
+
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
@@ -83,6 +84,25 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.59</version>
         </dependency>
+
+
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>4.1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sun.jna</groupId>
+                    <artifactId>jna</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!--		<dependency>-->
         <!--			<groupId>de.roskenet</groupId>-->
         <!--			<artifactId>springboot-javafx-support</artifactId>-->
@@ -108,5 +128,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

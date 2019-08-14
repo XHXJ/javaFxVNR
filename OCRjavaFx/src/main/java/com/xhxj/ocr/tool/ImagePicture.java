@@ -4,90 +4,125 @@ package com.xhxj.ocr.tool;
         import net.sourceforge.tess4j.util.LoggHelper;
         import org.slf4j.Logger;
         import org.slf4j.LoggerFactory;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.stereotype.Component;
 
         import java.awt.Color;
         import java.awt.image.BufferedImage;
         import java.io.File;
-        import java.io.IOException;
 
-        import javax.imageio.ImageIO;
 public class ImagePicture {
 
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
 
-    /**
-     *
-     * @param bi 处理的图像
-     * @param file 输出位置
-     */
-    public void getImagePicture(BufferedImage bi,File file) {
-//        String filename = "C:\\Users\\78222\\IdeaProjects\\xhxjVNR\\out\\1565648909909.png";// separator是File里的一个常量,由于java历史遗留问题故为小写
-//        File file = new File(filename);
-//        BufferedImage bi = ImageIO.read(file);
-        logger.info("当前灰度值设置为 :"+MainController.grayLeve);
-        // 获取当前图片的高,宽,ARGB
-        int h = bi.getHeight();
-        int w = bi.getWidth();
-        int rgb = bi.getRGB(0, 0);
-        int arr[][] = new int[w][h];
 
-        // 获取图片每一像素点的灰度值
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
-                // getRGB()返回默认的RGB颜色模型(十进制)
-                arr[i][j] = getImageRgb(bi.getRGB(i, j));//该点的灰度值
+
+//    public static void main(String[] args) throws IOException {
+//        BufferedImage bi=ImageIO.read(new File("C:\\Users\\78222\\Desktop\\测试\\Annotation 2019-08-14 230558.png"));//通过imageio将图像载入
+//        int h=bi.getHeight();//获取图像的高
+//        int w=bi.getWidth();//获取图像的宽
+//        int rgb=bi.getRGB(0, 0);//获取指定坐标的ARGB的像素值
+//        int[][] gray=new int[w][h];
+//        for (int x = 0; x < w; x++) {
+//            for (int y = 0; y < h; y++) {
+//                gray[x][y]=getGray(bi.getRGB(x, y));
+//            }
+//        }
+//
+//        BufferedImage nbi=new BufferedImage(w,h,BufferedImage.TYPE_BYTE_BINARY);
+//        int SW=150;
+//        for (int x = 0; x < w; x++) {
+//            for (int y = 0; y < h; y++) {
+//                if(getAverageColor(gray, x, y, w, h)>SW){
+//                    int max=new Color(255,255,255).getRGB();
+//                    nbi.setRGB(x, y, max);
+//                }else{
+//                    int min=new Color(0,0,0).getRGB();
+//                    nbi.setRGB(x, y, min);
+//                }
+//            }
+//        }
+//
+//        ImageIO.write(nbi, "png", new File("C:\\Users\\78222\\Desktop\\测试\\test.png"));
+//    }
+//
+//    public static int getGray(int rgb){
+//        String str=Integer.toHexString(rgb);
+//        int r=Integer.parseInt(str.substring(2,4),16);
+//        int g=Integer.parseInt(str.substring(4,6),16);
+//        int b=Integer.parseInt(str.substring(6,8),16);
+//        //or 直接new个color对象
+//        Color c=new Color(rgb);
+//        r=c.getRed();
+//        g=c.getGreen();
+//        b=c.getBlue();
+//        int top=(r+g+b)/3;
+//        return (int)(top);
+//    }
+//
+//    /**
+//     * 自己加周围8个灰度值再除以9，算出其相对灰度值
+//     * @param gray
+//     * @param x
+//     * @param y
+//     * @param w
+//     * @param h
+//     * @return
+//     */
+//    public static int  getAverageColor(int[][] gray, int x, int y, int w, int h)
+//    {
+//        int rs = gray[x][y]
+//                + (x == 0 ? 255 : gray[x - 1][y])
+//                + (x == 0 || y == 0 ? 255 : gray[x - 1][y - 1])
+//                + (x == 0 || y == h - 1 ? 255 : gray[x - 1][y + 1])
+//                + (y == 0 ? 255 : gray[x][y - 1])
+//                + (y == h - 1 ? 255 : gray[x][y + 1])
+//                + (x == w - 1 ? 255 : gray[x + 1][ y])
+//                + (x == w - 1 || y == 0 ? 255 : gray[x + 1][y - 1])
+//                + (x == w - 1 || y == h - 1 ? 255 : gray[x + 1][y + 1]);
+//        return rs / 9;
+//    }
+
+
+    public BufferedImage getImagePicture(BufferedImage image) {
+//        BufferedImage image = ImageIO.read(new File("C:\\Users\\78222\\Desktop\\测试\\Annotation 2019-08-14 230558.png"));
+        int w = image.getWidth();
+        int h = image.getHeight();
+        float[] rgb = new float[3];
+        double[][] zuobiao = new double[w][h];
+        int R = 0;
+        float red = 0;
+        float green = 0;
+        float blue = 0;
+        BufferedImage bi= new BufferedImage(w, h,
+                BufferedImage.TYPE_BYTE_BINARY);
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                int pixel = image.getRGB(x, y);
+                rgb[0] = (pixel & 0xff0000) >> 16;
+                rgb[1] = (pixel & 0xff00) >> 8;
+                rgb[2] = (pixel & 0xff);
+                red += rgb[0];
+                green += rgb[1];
+                blue += rgb[2];
+                float avg = (rgb[0]+rgb[1]+rgb[2])/3;
+                zuobiao[x][y] = avg;
+
             }
-
         }
-
-        BufferedImage bufferedImage=new BufferedImage(w, h, BufferedImage.TYPE_BYTE_BINARY);//  构造一个类型为预定义图像类型之一的 BufferedImage，TYPE_BYTE_BINARY（表示一个不透明的以字节打包的 1、2 或 4 位图像。）
-        int FZ=130;
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
-                if(getGray(arr,i,j,w,h)>FZ){
-                    int black=new Color(255,255,255).getRGB();
-                    bufferedImage.setRGB(i, j, black);
+        double SW = MainController.grayLeve;
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                if (zuobiao[x][y] <= SW) {
+                    int max = new Color(0, 0, 0).getRGB();
+                    bi.setRGB(x, y, max);
                 }else{
-                    int white=new Color(0,0,0).getRGB();
-                    bufferedImage.setRGB(i, j, white);
+                    int min = new Color(255, 255, 255).getRGB();
+                    bi.setRGB(x, y, min);
                 }
             }
-
         }
-        try {
-            ImageIO.write(bufferedImage, "png", file.getCanonicalFile());
-        } catch (IOException e) {
-            logger.info("图像处理时写出文件出现异常");
-            e.printStackTrace();
-        }
+
+
+        return bi;
     }
 
-    private static int getImageRgb(int i) {
-        String argb = Integer.toHexString(i);// 将十进制的颜色值转为十六进制
-        // argb分别代表透明,红,绿,蓝 分别占16进制2位
-        int r = Integer.parseInt(argb.substring(2, 4),16);//后面参数为使用进制
-        int g = Integer.parseInt(argb.substring(4, 6),16);
-        int b = Integer.parseInt(argb.substring(6, 8),16);
-        int result=(int)((r+g+b)/3);
-        return result;
-    }
-
-
-
-    //自己加周围8个灰度值再除以9，算出其相对灰度值
-    public static double  getGray(int gray[][], int x, int y, int w, int h)
-    {
-        double rs = gray[x][y]
-                + (x == 0 ? 255 : gray[x - 1][y])
-                + (x == 0 || y == 0 ? 255 : gray[x - 1][y - 1])
-                + (x == 0 || y == h - 1 ? 255 : gray[x - 1][y + 1])
-                + (y == 0 ? 255 : gray[x][y - 1])
-                + (y == h - 1 ? 255 : gray[x][y + 1])
-                + (x == w - 1 ? 255 : gray[x + 1][ y])
-                + (x == w - 1 || y == 0 ? 255 : gray[x + 1][y - 1])
-                + (x == w - 1 || y == h - 1 ? 255 : gray[x + 1][y + 1]);
-        return rs / MainController.grayLeve;
-    }
 }

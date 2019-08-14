@@ -2,6 +2,8 @@ package com.xhxj.ocr.dao;
 
 import lombok.Data;
 
+import java.awt.image.BufferedImage;
+
 
 /**
  * 节点对象
@@ -17,4 +19,6 @@ public class SceneDao {
     private String translation;
     //原文
     private String original;
+    //截取的图片
+    private BufferedImage Image;
 }

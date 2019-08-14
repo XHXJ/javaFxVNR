@@ -31,6 +31,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.util.LoggHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -39,6 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -60,12 +63,12 @@ public class MainController {
 
     //文字存取图片
     ImageView iv;
+    ImageView iv2;
     BufferedImage bufferedImage;
 
     Stage primary;
     Stage stage;
     Stage ocrTxt;
-    Stage ocrTxtBox;
 
     HBox view;
 
@@ -78,17 +81,25 @@ public class MainController {
     //所有的选择框
     static List<SceneDao> sceneDaos = new ArrayList<>();
 
-    //定义变量
     //识别间隔
-    public static long threadSleep = 1000;
-    public static double grayLeve = 9.0;
+    public static long threadSleep = 0;
+    //二值化阀值
+    public static double grayLeve = 170;
+    //启用二值化输出
+    public static Boolean colorBoolean = true;
+    //tessdata路径设置
+    public static String tessdataPath ="C:\\Program Files (x86)\\Tesseract-OCR\\tessdata" ;
+    //翻译语言设置
+    public static String ocrLanguage = "jpn";
 
-
-    //输出路径
-    File out = new File("out");
+    //保存所有翻译过的原文
+    static HashMap<String, Date> allTxtMap = new HashMap<>();
+//    //输出路径
+//    File out = new File("out");
 
     //开始关闭
     private static int startInt = 0;
+    //是否开启二值化处理
 
 
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
@@ -106,12 +117,19 @@ public class MainController {
         iv = new ImageView();
         iv.setFitWidth(400);
         iv.setPreserveRatio(true);
+        iv2 = new ImageView();
+        iv2.setFitWidth(400);
+        iv2.setPreserveRatio(true);
+
         root.getChildren().add(iv);
+        root.getChildren().add(iv2);
         AnchorPane.setTopAnchor(iv, 100.0);
+        AnchorPane.setTopAnchor(iv2, 300.0);
         AnchorPane.setLeftAnchor(iv, 30.0);
+        AnchorPane.setLeftAnchor(iv2, 30.0);
 
         Scene scene = new Scene(root);
-        primaryStage.setTitle("下划线君的OCR翻译机 v0.1");
+        primaryStage.setTitle("下划线君的OCR翻译机 v0.3");
         primaryStage.setScene(scene);
         primaryStage.setHeight(500);
         primaryStage.setWidth(500);
@@ -144,6 +162,22 @@ public class MainController {
         //定义快捷键
         Mnemonic mnemonic = new Mnemonic(button, keyCombination);
         scene.addMnemonic(mnemonic);
+
+        Executor executor = taskExecutePool.myTaskAsyncPool();
+        executor.execute(() -> {
+            while (true) {
+                try {
+                    //每一秒去切换主界面的图片
+                    Thread.sleep(1000);
+                    if (sceneDaos.size() > 0 && sceneDaos.get(0).getImage() != null) {
+                        WritableImage writableImage = SwingFXUtils.toFXImage(sceneDaos.get(0).getImage(), null);
+                        iv2.setImage(writableImage);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 
@@ -286,11 +320,11 @@ public class MainController {
     }
 
     /**
-     * 截图并保存到文件
+     * 截图
      *
      * @param
      */
-    private void getScreenImg() {
+    public void getScreenImg() {
 
         sceneDaos.forEach(sceneDao -> {
             double sceneX_start = sceneDao.getSceneX_start();
@@ -305,35 +339,14 @@ public class MainController {
                     Robot robot = new Robot();
                     Rectangle rectangle = new Rectangle((int) sceneX_start, (int) sceneY_start, w, h);
                     //获取到截图
-                    bufferedImage = robot.createScreenCapture(rectangle);
-                    WritableImage writableImage = SwingFXUtils.toFXImage(bufferedImage, null);
-                    iv.setImage(writableImage);
-
-
-                    //复制到剪切板
-//                    Clipboard cp = Clipboard.getSystemClipboard();
-//                    ClipboardContent content = new ClipboardContent();
-//                    content.putImage(writableImage);
-//                    cp.setContent(content);
-
-
-                    //写出到文件
-                    if (!out.exists()) {
-                        out.mkdirs();
-                    }
-
-
-                    File file = new File("out/" + sceneDao.getName() + ".png");
-                    logger.info("写出的图片文件路径: " + file.getCanonicalPath());
-//                ImageIO.write(bufferedImage, "png", out);
-
-                    ImagePicture imagePicture = new ImagePicture();
-                    //把图像二值后输出
-                    imagePicture.getImagePicture(bufferedImage, file);
+                    BufferedImage screenCapture = robot.createScreenCapture(rectangle);
+                    //把截图保存到对象
+                    sceneDao.setImage(screenCapture);
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             } else {
                 logger.info("没有打开过截图");
             }
@@ -369,9 +382,7 @@ public class MainController {
         menu1.getItems().add(menuItem1);
         menuBar.getMenus().add(menu);
         menuBar.getMenus().add(menu1);
-        menuItem.setOnAction(event -> {
-            ocrTxtController.showOcrTxtBox();
-        });
+        menuItem.setOnAction(event -> ocrTxtController.showOcrTxtBox());
 
 
         ocrStop.setOnAction(MainController::handle);
@@ -415,9 +426,9 @@ public class MainController {
 
             //每两秒截图
             //这里应该开启多线程去维护更新
-            //重复截图
+            //把sceneDaos中的对象全部拿去截图
             getScreenImg();
-            //获取识别后的文字
+            //把sceneDaos中的对象全部识别
             orcIdentify();
 
             TextArea txt_original = (TextArea) scene.lookup("#ocr1");
@@ -425,22 +436,30 @@ public class MainController {
 
             StringBuilder txt1 = new StringBuilder();
 
-
             //获得翻译文本
             sceneDaos.forEach(sceneDao -> {
                 txt1.append(sceneDao.getOriginal());
                 txt1.append(" \n");
             });
+            String allTxt = new String(txt1);
 
-            if (!"error".equals(txt1) && txt1 != null) {
-                List<String> baiduTxt = getBaiduApi(new String(txt1));
+            //判断文本是否之前就存在注意控制数量
+            if (!allTxtMap.containsKey(allTxt)) {
+                List<String> baiduTxt = getBaiduApi(allTxt);
                 logger.info("百度翻译 : " + baiduTxt);
                 String join = StringUtils.join(Arrays.asList(baiduTxt.toArray()), "\n").replace("12;", "");
-
+                //重新复制给文本
                 txt_origina2.setText(join);
+                txt_original.setText(allTxt);
+            } else {
+                logger.info("baiduApi没有调用,已翻译过");
+                //超过自动清空
+                if (allTxtMap.size()>200){
+                    logger.info("已清空翻译过的原文_allTxtMap");
+                    allTxtMap.clear();
+                }
             }
-            //重新复制给文本
-            txt_original.setText(new String(txt1));
+            allTxtMap.put(allTxt, new Date());
         } else {
             logger.info("没有选框对象");
         }
@@ -454,90 +473,72 @@ public class MainController {
     /**
      * 获取翻译后的文字
      *
-     * @return
+     * @return 翻译后的文字
      */
     private List<String> getBaiduApi(String query) {
         TransApi api = new TransApi(APP_ID, SECURITY_KEY);
 
 //        String query = "生活の文化を笑颜であるし、何もない滞纳私たちは、常にする必要があるので苦い。";
-        String transResult = api.getTransResult(query, "jp", "zh");
-
+        String transResult = api.getTransResult(query, "auto", "zh");
+        logger.info("baiduApi message :" + transResult);
         FanyiBaiduDao fyBaidu = JSONObject.parseObject(transResult, FanyiBaiduDao.class);
         List<FanyiBaiduTxtDao> trans_result = fyBaidu.getTrans_result();
         List<String> txt = new ArrayList<>();
-
-        trans_result.forEach(v -> txt.add(v.getDst()));
+        if (trans_result != null) {
+            trans_result.forEach(v -> txt.add(v.getDst()));
+        }
         return txt;
     }
 
     /**
      * ocr识别方法
-     *
-     * @return
      */
-    public void orcIdentify() {
+    private void orcIdentify() {
         final CountDownLatch latch = new CountDownLatch(sceneDaos.size());
         Executor executor = taskExecutePool.myTaskAsyncPool();
         //判断是否执行了之前的截图方法,并且截图文件保存了
         sceneDaos.forEach(sceneDao -> {
             //开启多线程
             executor.execute(() -> {
+
+//                Runtime runtime = Runtime.getRuntime();
+//                StringBuilder sumtxt = new StringBuilder();
                 logger.info("OCR识别开始");
                 Date stardata = new Date();
-                Runtime runtime = Runtime.getRuntime();
-                StringBuilder sumtxt = new StringBuilder();
-
+                ITesseract iTesseract = new Tesseract();
+                iTesseract.setDatapath(tessdataPath);
+                iTesseract.setLanguage(ocrLanguage);
                 try {
-
-                    Process md_test = runtime.exec("tesseract " + sceneDao.getName() + ".png  " + sceneDao.getName() + " -l jpn+osd", null, out);
-                    InputStream inputStream = md_test.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                    String s;
-
-                    while ((s = reader.readLine()) != null) {
-                        logger.info("cmd返回信息: " + s);
+                    if (colorBoolean) {
+                        logger.info("启用二值化输出");
+                        //把图像二值后输出
+                        ImagePicture imagePicture = new ImagePicture();
+                        sceneDao.setImage(imagePicture.getImagePicture(sceneDao.getImage()));
+                        ;
                     }
 
-                    //读取识别后的文本
-                    File txtFile = new File("out/" + sceneDao.getName() + ".txt");
-                    BufferedReader bf = new BufferedReader(new InputStreamReader(new FileInputStream(txtFile), "UTF-8"));
-                    String txt;
-                    while ((txt = bf.readLine()) != null) {
-                        sumtxt.append(txt);
-                    }
-                    bf.close();
+
+                    String s = iTesseract.doOCR(sceneDao.getImage());
                     long sum = new Date().getTime() - stardata.getTime();
-                    logger.info("完成识别 : \n" + sumtxt + "\n共耗时 : " + sum);
-                    String replace = new String(sumtxt).replace(" ", "");
+                    logger.info("完成识别 : \n" + s + "\n共耗时 : " + sum);
+
+
+//                    //读取识别后的文本
+//                    File txtFile = new File("out/" + sceneDao.getName() + ".txt");
+//                    BufferedReader bf = new BufferedReader(new InputStreamReader(new FileInputStream(txtFile), "UTF-8"));
+//                    String txt;
+//                    while ((txt = bf.readLine()) != null) {
+//                        sumtxt.append(txt);
+//                    }
+//                    bf.close();
+
+                    String replace = s.replace(" ", "");
                     sceneDao.setOriginal(replace);
                     latch.countDown();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-//        ITesseract instance;
-//        instance = new Tesseract();
-//        //开始识别
-////        logger.info("doOCR on a jpg image");
-//        File file = new File("");
-//        try {
-//            System.out.println("当前运行目录 :+\n"+file.getCanonicalPath());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-////        instance.setDatapath("/tessdata");
-//        instance.setLanguage("jpn");
-//        String result = "没有获取到游戏文本";
-//        try {
-//            if (bufferedImage != null) {
-//                result = instance.doOCR(bufferedImage);
-//            }
-//        } catch (TesseractException e) {
-//            e.printStackTrace();
-//        }
-
             });
-
         });
         try {
             latch.await();
