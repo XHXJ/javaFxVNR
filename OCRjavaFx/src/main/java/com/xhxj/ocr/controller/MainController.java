@@ -447,7 +447,7 @@ public class MainController {
             if (!allTxtMap.containsKey(allTxt)) {
                 List<String> baiduTxt = getBaiduApi(allTxt);
                 logger.info("百度翻译 : " + baiduTxt);
-                String join = StringUtils.join(Arrays.asList(baiduTxt.toArray()), "\n").replace("12;", "");
+                String join = StringUtils.join(Arrays.asList(baiduTxt.toArray()), "\n\n\n\n").replace("12;", "");
                 //重新复制给文本
                 txt_origina2.setText(join);
                 txt_original.setText(allTxt);
@@ -532,7 +532,7 @@ public class MainController {
 //                    }
 //                    bf.close();
 
-                    String replace = s.replace(" ", "");
+                    String replace = s.replace(" ", "").replace("\n","");
                     sceneDao.setOriginal(replace);
                     latch.countDown();
                 } catch (Exception e) {
@@ -548,4 +548,3 @@ public class MainController {
         }
     }
 }
-
