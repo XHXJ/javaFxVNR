@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ListView?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<AnchorPane xmlns:fx="http://javafx.com/javafx" fx:controller="com.xhxj.ocr.controller.ListController"
+            minWidth="500" minHeight="400">
+    <GridPane alignment="CENTER">
+        <Label text="翻译区域管理" GridPane.rowIndex="0" GridPane.columnIndex="0"></Label>
+        <ListView fx:id="listView" GridPane.rowIndex="1" GridPane.columnIndex="0" minWidth="430"
+                  minHeight="300"></ListView>
+<!--        <Button text="新增" fx:id="increased" GridPane.rowIndex="2" GridPane.columnIndex="0"></Button>-->
+        <Button text="删除" fx:id="delete" GridPane.rowIndex="1" GridPane.columnIndex="1"></Button>
+    </GridPane>
+</AnchorPane>

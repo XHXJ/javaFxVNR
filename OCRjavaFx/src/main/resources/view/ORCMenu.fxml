@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Button?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<Scene width="500" height="400">
+
+    <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+        <BorderPane GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <top>
+                <MenuBar BorderPane.alignment="CENTER" id="ocrTxtOption">
+                </MenuBar>
+            </top>
+        </BorderPane>
+        <Label text="游戏原文" GridPane.columnIndex="0" GridPane.rowIndex="1"></Label>
+        <TextArea id="ocr1" GridPane.columnIndex="1" GridPane.rowIndex="1" maxWidth="400" wrapText="true"></TextArea>
+        <Label text="翻译文本" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextArea id="ocr2" GridPane.columnIndex="1" GridPane.rowIndex="2" maxWidth="400" wrapText="true"></TextArea>
+        <Button id="ocrStart" text="开始" GridPane.rowIndex="3" GridPane.columnIndex="1"></Button>
+        <Button id="ocrStop" text="停止" GridPane.rowIndex="3" GridPane.columnIndex="2"></Button>
+    </GridPane>
+</Scene>
