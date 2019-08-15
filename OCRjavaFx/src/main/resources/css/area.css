@@ -1,0 +1,7 @@
+
+.text-area, .text-area .viewport, .text-area .content {
+    -fx-background-color: transparent ;
+    -fx-font-weight:bold;
+    -fx-text-fill: #ffffff;
+    -fx-font-size:18;
+}

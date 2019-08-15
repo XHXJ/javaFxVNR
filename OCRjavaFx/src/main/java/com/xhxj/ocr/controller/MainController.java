@@ -1,25 +1,20 @@
 package com.xhxj.ocr.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xhxj.ocr.ShowTxtTaskExecutePool;
 import com.xhxj.ocr.TaskExecutePool;
 import com.xhxj.ocr.dao.FanyiBaiduDao;
 import com.xhxj.ocr.dao.FanyiBaiduTxtDao;
 import com.xhxj.ocr.dao.SceneDao;
 import com.xhxj.ocr.tool.ImagePicture;
 import com.xhxj.ocr.tool.baidu.TransApi;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -41,7 +36,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -52,13 +46,22 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 
 @Controller
+/**
+ * @description:
+ * @author: zdthm2010@gmail.com
+ * @date: 2019-08-15 19:34
+ */
 public class MainController {
     @Autowired
     TaskExecutePool taskExecutePool;
     @Autowired
+    ShowTxtTaskExecutePool showTxtTaskExecutePool;
+    @Autowired
     ListController listController;
     @Autowired
     OcrTxtController ocrTxtController;
+    @Autowired
+    ShowTxtController showTxtController;
 
 
     //文字存取图片
@@ -72,6 +75,13 @@ public class MainController {
 
     HBox view;
 
+    //baiduapi
+    @Value("${APP_ID}")
+    private String APP_ID;
+    @Value("${SECURITY_KEY}")
+    private String SECURITY_KEY;
+
+
     //截图坐标
     double sceneX_start;
     double sceneY_start;
@@ -79,7 +89,7 @@ public class MainController {
     double sceney_End;
 
     //所有的选择框
-    static List<SceneDao> sceneDaos = new ArrayList<>();
+    public static List<SceneDao> sceneDaos = new ArrayList<>();
 
     //识别间隔
     public static long threadSleep = 0;
@@ -88,7 +98,7 @@ public class MainController {
     //启用二值化输出
     public static Boolean colorBoolean = true;
     //tessdata路径设置
-    public static String tessdataPath ="C:\\Program Files (x86)\\Tesseract-OCR\\tessdata" ;
+    public static String tessdataPath = "C:\\Program Files (x86)\\Tesseract-OCR\\tessdata";
     //翻译语言设置
     public static String ocrLanguage = "jpn";
 
@@ -101,9 +111,18 @@ public class MainController {
     private static int startInt = 0;
     //是否开启二值化处理
 
+    //给与是否要更新的旗帜
+    public static boolean flag = true;
+    public static Object lock = new Object();
+
 
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
 
+    /**
+     * 关闭识别线程
+     *
+     * @param event
+     */
     private static void handle(ActionEvent event) {
         startInt = 0;
     }
@@ -145,15 +164,27 @@ public class MainController {
         Button buttonTest = new Button("翻译测试");
         root.getChildren().add(buttonTest);
         AnchorPane.setTopAnchor(buttonTest, 25.0);
-        AnchorPane.setRightAnchor(buttonTest, 100.0);
+        AnchorPane.setRightAnchor(buttonTest, 80.0);
         buttonTest.setOnAction(event -> showOcrTxt());
 
-        //管理选框按钮
+        //翻译位置管理按钮
         Button buttonMarquee = new Button("翻译位置管理");
         root.getChildren().add(buttonMarquee);
         AnchorPane.setTopAnchor(buttonMarquee, 25.0);
-        AnchorPane.setLeftAnchor(buttonMarquee, 150.0);
+        AnchorPane.setLeftAnchor(buttonMarquee, 120.0);
         buttonMarquee.setOnAction(event -> listController.showMainMarquee());
+        //显示文本框
+        Button showTxt = new Button("显示文本框");
+        root.getChildren().add(showTxt);
+        AnchorPane.setTopAnchor(showTxt, 25.0);
+        AnchorPane.setLeftAnchor(showTxt, 250.0);
+        showTxt.setOnAction(event -> showTxtController.startShowText());
+        //关闭所有文本
+        Button offShowTex = new Button("关闭文本框");
+        root.getChildren().add(offShowTex);
+        AnchorPane.setTopAnchor(offShowTex, 50.0);
+        AnchorPane.setLeftAnchor(offShowTex, 250.0);
+        offShowTex.setOnAction(event -> showTxtController.offShowTxt());
 
 
         //定义按钮事件
@@ -310,7 +341,7 @@ public class MainController {
             sceneDao.setSceneY_start(sceneY_start);
             sceneDao.setSceneX_End(sceneX_End);
             sceneDao.setSceney_End(sceney_End);
-            sceneDao.setName(UUID.randomUUID().toString());
+//            sceneDao.setName(UUID.randomUUID().toString());
             sceneDaos.add(sceneDao);
             logger.info("当前拥有选择框对象:\n" + sceneDaos.toString());
 
@@ -383,8 +414,6 @@ public class MainController {
         menuBar.getMenus().add(menu);
         menuBar.getMenus().add(menu1);
         menuItem.setOnAction(event -> ocrTxtController.showOcrTxtBox());
-
-
         ocrStop.setOnAction(MainController::handle);
         Scene finalScene = scene;
         Executor executor = taskExecutePool.myTaskAsyncPool();
@@ -404,7 +433,6 @@ public class MainController {
                 }
                 logger.info("识别已停止!");
             });
-
         });
 
 
@@ -438,23 +466,45 @@ public class MainController {
 
             //获得翻译文本
             sceneDaos.forEach(sceneDao -> {
+                txt1.append(sceneDao.getName() + "\"id\"  ");
                 txt1.append(sceneDao.getOriginal());
-                txt1.append(" \n");
+                txt1.append("\n");
             });
             String allTxt = new String(txt1);
 
             //判断文本是否之前就存在注意控制数量
+
+            //赋值给sceneDaos译文这里需要注意根据#id来区分翻译选择框,进入百度api之后如果识别为乱码#id可能不会返回!
             if (!allTxtMap.containsKey(allTxt)) {
                 List<String> baiduTxt = getBaiduApi(allTxt);
                 logger.info("百度翻译 : " + baiduTxt);
-                String join = StringUtils.join(Arrays.asList(baiduTxt.toArray()), "\n\n\n\n").replace("12;", "");
+
+                synchronized (lock){
+                    baiduTxt.forEach(s -> {
+                        String[] split = s.split("\"id\"");
+                        sceneDaos.forEach(sceneDao -> {
+                            if (sceneDao.getName().equals(split[0]) && split.length > 1) {
+                                sceneDao.setTranslation(split[1]);
+                            }
+                        });
+                    });
+                    //去通知更新showTxt显示的文本框
+                    lock.notifyAll();
+                    logger.info("发出通知要求更新文本框");
+                    flag =true;
+                }
+
+
+
+                String join = StringUtils.join(Arrays.asList(baiduTxt.toArray()), "\n\n");
                 //重新复制给文本
                 txt_origina2.setText(join);
                 txt_original.setText(allTxt);
+
             } else {
                 logger.info("baiduApi没有调用,已翻译过");
                 //超过自动清空
-                if (allTxtMap.size()>200){
+                if (allTxtMap.size() > 200) {
                     logger.info("已清空翻译过的原文_allTxtMap");
                     allTxtMap.clear();
                 }
@@ -465,10 +515,6 @@ public class MainController {
         }
     }
 
-    @Value("${APP_ID}")
-    private String APP_ID;
-    @Value("${SECURITY_KEY}")
-    private String SECURITY_KEY;
 
     /**
      * 获取翻译后的文字
@@ -532,7 +578,7 @@ public class MainController {
 //                    }
 //                    bf.close();
 
-                    String replace = s.replace(" ", "").replace("\n","");
+                    String replace = s.replace(" ", "").replace("\n", "");
                     sceneDao.setOriginal(replace);
                     latch.countDown();
                 } catch (Exception e) {

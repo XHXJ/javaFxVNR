@@ -25,12 +25,17 @@ import java.net.URL;
 import java.util.List;
 
 @Component
+/**
+ * @description:
+ * @author: zdthm2010@gmail.com
+ * @date: 2019-08-15 19:34
+ */
 public class ListController {
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
     @Autowired
     MainController mainController;
     //保存获取到的选取名字
-    private String selectName = " ";
+    private String selectName = "";
 
     private Stage mainMarquee;
 
@@ -55,10 +60,10 @@ public class ListController {
 
                 logger.info("获取选框数据" + newValue);
                 selectName = newValue;
-                //选取的时候应该显示该窗口大小
                 if (interfaceBox!=null){
                     interfaceBox.close();
                 }
+                //选取的时候应该显示该窗口大小
                 getMainInterfaceBox();
             }
         });

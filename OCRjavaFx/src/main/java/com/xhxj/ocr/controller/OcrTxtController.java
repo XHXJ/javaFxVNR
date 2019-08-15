@@ -17,6 +17,11 @@ import java.io.IOException;
 import java.net.URL;
 
 @Component
+/**
+ * @description:
+ * @author: zdthm2010@gmail.com
+ * @date: 2019-08-15 19:34
+ */
 public class OcrTxtController {
     private Stage ocrTxtBox;
     @FXML
@@ -36,7 +41,7 @@ public class OcrTxtController {
         AnchorPane anchorPane = null;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = fxmlLoader.getClassLoader().getResource("view/ocrTxt.fxml");
+            URL url = fxmlLoader.getClassLoader().getResource("view/OcrTxt.fxml");
             fxmlLoader.setLocation(url);
             anchorPane = fxmlLoader.load();
         } catch (IOException e) {
