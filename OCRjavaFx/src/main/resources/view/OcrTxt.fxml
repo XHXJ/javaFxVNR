@@ -6,7 +6,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/javafx"
-            fx:controller="com.xhxj.ocr.controller.OcrTxtController"
+            fx:controller="com.xhxj.ocr.controller.ShowOptionController"
             prefHeight="200.0" prefWidth="200.0">
     <GridPane alignment="CENTER" >
         <Label text="颜色阀值" GridPane.rowIndex="0" GridPane.columnIndex="0" ></Label>

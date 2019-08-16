@@ -22,7 +22,7 @@ import java.net.URL;
  * @author: zdthm2010@gmail.com
  * @date: 2019-08-15 19:34
  */
-public class OcrTxtController {
+public class ShowOptionController {
     private Stage ocrTxtBox;
     @FXML
     private TextField grayLeve;
@@ -37,7 +37,7 @@ public class OcrTxtController {
     @FXML
     private TextField tessdataPath;
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
-    public void showOcrTxtBox() {
+    public void showOption() {
         AnchorPane anchorPane = null;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();

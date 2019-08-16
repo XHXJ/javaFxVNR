@@ -4,7 +4,9 @@ import com.xhxj.ocr.ShowTxtTaskExecutePool;
 import com.xhxj.ocr.TaskExecutePool;
 import com.xhxj.ocr.dao.SceneDao;
 import com.xhxj.ocr.tool.TimingShowServiceTask;
+import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -86,33 +88,24 @@ public class ShowTxtController {
                 showTxtStage.setY(event.getScreenY() - yOffset);
             });
 
-//            JTextArea label = new JTextArea("测试................");
-//            TextArea label =  new TextArea("测试");
-//            label.setPrefWidth(width/0.8);
-//            label.setPrefHeight(height/0.8);
             TextArea textArea = new TextArea(sceneDao.getTranslation());
-            textArea.setMaxWidth(width * 0.8);
-            textArea.setMaxHeight(height * 0.8);
+            textArea.setMaxWidth(width/2 * 0.8);
+            textArea.setMaxHeight(height/2 * 0.8);
             textArea.setWrapText(true);
             textArea.setEditable(false);
             textArea.getStylesheets().add("css/area.css");
 
-//            Label label = new Label();
             Label label1 = new Label(sceneDao.getName());
             label1.setTextFill(Color.web("#FFFFFF"));
             textArea.setId(sceneDao.getName());
-//            label.setScaleX(1.5);
-//            label.setScaleY(1.5);
-//            label.setWrapText(true);
-//            label.setTextFill(Color.web("#FFFFFF"));
+
 
             root.setCenter(textArea);
             root.setLeft(label1);
 
 
-            Scene scene = new Scene(root, width, height);
+            Scene scene = new Scene(root, width/2, height/2);
             scene.setFill(Paint.valueOf("#00000020"));
-//            scene.getStylesheets().add(getClass().getResource("demo.css").toExternalForm());
             showTxtStage.setAlwaysOnTop(true);
             showTxtStage.setScene(scene);
             showTxtStage.setY(sceneY_start);
@@ -125,66 +118,30 @@ public class ShowTxtController {
             //启用更新文字线程
             timingShowServiceTask.setName(sceneDao.getName());
             timingShowServiceTask.setDelay(Duration.seconds(1));
-            timingShowServiceTask.setPeriod(Duration.seconds(1));
+            timingShowServiceTask.setPeriod(Duration.millis(100));
             timingShowServiceTask.setExecutor(executor);
             timingShowServiceTask.start();
-
-//            executor.execute(timingShowServiceTask);
 
             timingShowServiceTask.valueProperty().addListener((observable, oldValue, newValue) -> {
                 if (StringUtils.isNotEmpty(newValue)){
                     textArea.setText(newValue);
                 }
             });
+
+            //启用截图最小化的线程
+
+
             timingShowServiceTasks.add(timingShowServiceTask);
             stageList.add(showTxtStage);
-//            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 
-//
-//            Scene scene = new Scene(root);
-//            scene.setFill(Paint.valueOf("#FB7299"));
-//            interfaceBox = new Stage();
-//            interfaceBox.initStyle(StageStyle.UNDECORATED);
-//            interfaceBox.setScene(scene);
-//            interfaceBox.setFullScreen(false);
-////            interfaceBox.setFullScreenExitHint("");
-//
-//            interfaceBox.setWidth(width);
-//            interfaceBox.setHeight(height);
-//            interfaceBox.show();
-//
-//
-//
-//
             //esc退出
             scene.setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ESCAPE) {
                     showTxtStage.close();
-//                mainMarquee.setIconified(false);
                 }
             });
-//
-////            SceneDao sceneDao = new SceneDao();
-////            for (SceneDao dao : daos) {
-////                if (dao.getName().equals(selectName)) {
-////                    sceneDao = dao;
-////                }
-////            }
-//
-//            HBox hBox = new HBox();
-//
-//            hBox.setBackground(null);
-//            hBox.setBorder(new Border(new BorderStroke(Paint.valueOf("#FB7299"), BorderStrokeStyle.SOLID, null, new BorderWidths(2))));
-//
-//
-//            AnchorPane.setLeftAnchor(hBox, sceneX_start);
-//            AnchorPane.setTopAnchor(hBox, sceneY_start);
-//
-//
-//            hBox.setPrefWidth(width);
-//            hBox.setPrefHeight(height);
-//
-//            an.getChildren().add(hBox);
+
+
 
         }
         //每段时间刷新文本
@@ -194,15 +151,9 @@ public class ShowTxtController {
     /**
      * 关闭所有文本框
      */
-    public void offShowTxt() {
+    public void offShowText() {
         timingShowServiceTasks.forEach(Service::cancel);
         stageList.forEach(Stage::close);
     }
 
-    /**
-     * 更新所有的文本框
-     */
-    public void updateShowTxt() {
-        startShowText();
-    }
 }

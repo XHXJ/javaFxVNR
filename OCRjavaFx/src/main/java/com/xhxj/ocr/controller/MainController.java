@@ -8,8 +8,11 @@ import com.xhxj.ocr.dao.FanyiBaiduTxtDao;
 import com.xhxj.ocr.dao.SceneDao;
 import com.xhxj.ocr.tool.ImagePicture;
 import com.xhxj.ocr.tool.baidu.TransApi;
+import de.felixroske.jfxsupport.GUIState;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -45,12 +48,13 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 
-@Controller
+
 /**
  * @description:
  * @author: zdthm2010@gmail.com
  * @date: 2019-08-15 19:34
  */
+@Controller
 public class MainController {
     @Autowired
     TaskExecutePool taskExecutePool;
@@ -59,14 +63,17 @@ public class MainController {
     @Autowired
     ListController listController;
     @Autowired
-    OcrTxtController ocrTxtController;
+    ShowOptionController showOptionController;
     @Autowired
     ShowTxtController showTxtController;
 
 
     //文字存取图片
-    ImageView iv;
-    ImageView iv2;
+    @FXML
+    private ImageView iv;
+    @FXML
+    private ImageView iv2;
+
     BufferedImage bufferedImage;
 
     Stage primary;
@@ -108,93 +115,84 @@ public class MainController {
 //    File out = new File("out");
 
     //开始关闭
-    private static int startInt = 0;
+    private static boolean startInt = true;
     //是否开启二值化处理
 
     //给与是否要更新的旗帜
     public static boolean flag = true;
     public static Object lock = new Object();
+    public static Object lock2 = new Object();
 
 
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
 
     /**
      * 关闭识别线程
-     *
-     * @param event
      */
-    private static void handle(ActionEvent event) {
-        startInt = 0;
+    private static void ocrStop() {
+        startInt = false;
     }
 
 
-    public void start(Stage primaryStage) {
-        primary = primaryStage;
-        //顶级
-        AnchorPane root = new AnchorPane();
-        //定义截图后的图片
-        iv = new ImageView();
-        iv.setFitWidth(400);
-        iv.setPreserveRatio(true);
-        iv2 = new ImageView();
-        iv2.setFitWidth(400);
-        iv2.setPreserveRatio(true);
+    //开始
+    @FXML
+    private Button mainStart;
+    @FXML
+    private Button mainStop;
+    @FXML
+    private MenuItem showOptionMenuItem;
+    @FXML
+    private MenuItem showOcrTxtMenu;
+    @FXML
+    private Button getSceneDaoImgButton;
+    @FXML
+    private Button showMainMarqueeButton;
+    @FXML
+    private Button startShowTextButton;
+    @FXML
+    private Button offShowTextButton;
 
-        root.getChildren().add(iv);
-        root.getChildren().add(iv2);
-        AnchorPane.setTopAnchor(iv, 100.0);
-        AnchorPane.setTopAnchor(iv2, 300.0);
-        AnchorPane.setLeftAnchor(iv, 30.0);
-        AnchorPane.setLeftAnchor(iv2, 30.0);
+    @Value("${version}")
+    private String version;
 
-        Scene scene = new Scene(root);
-        primaryStage.setTitle("下划线君的OCR翻译机 v0.4");
-        primaryStage.setScene(scene);
-        primaryStage.setHeight(500);
-        primaryStage.setWidth(500);
-        primaryStage.show();
+    @FXML
+    public void initialize() {
 
-        //按钮
-        Button button = new Button("选取翻译位置");
-        root.getChildren().add(button);
-        AnchorPane.setTopAnchor(button, 25.0);
-        AnchorPane.setLeftAnchor(button, 25.0);
-
-        //测试按钮
-        Button buttonTest = new Button("翻译测试");
-        root.getChildren().add(buttonTest);
-        AnchorPane.setTopAnchor(buttonTest, 25.0);
-        AnchorPane.setRightAnchor(buttonTest, 80.0);
-        buttonTest.setOnAction(event -> showOcrTxt());
-
-        //翻译位置管理按钮
-        Button buttonMarquee = new Button("翻译位置管理");
-        root.getChildren().add(buttonMarquee);
-        AnchorPane.setTopAnchor(buttonMarquee, 25.0);
-        AnchorPane.setLeftAnchor(buttonMarquee, 120.0);
-        buttonMarquee.setOnAction(event -> listController.showMainMarquee());
-        //显示文本框
-        Button showTxt = new Button("显示文本框");
-        root.getChildren().add(showTxt);
-        AnchorPane.setTopAnchor(showTxt, 25.0);
-        AnchorPane.setLeftAnchor(showTxt, 250.0);
-        showTxt.setOnAction(event -> showTxtController.startShowText());
-        //关闭所有文本
-        Button offShowTex = new Button("关闭文本框");
-        root.getChildren().add(offShowTex);
-        AnchorPane.setTopAnchor(offShowTex, 50.0);
-        AnchorPane.setLeftAnchor(offShowTex, 250.0);
-        offShowTex.setOnAction(event -> showTxtController.offShowTxt());
-
-
-        //定义按钮事件
-        button.setOnAction(event -> choose());
-        KeyCombination keyCombination = KeyCombination.valueOf("alt+a");
-        //定义快捷键
-        Mnemonic mnemonic = new Mnemonic(button, keyCombination);
-        scene.addMnemonic(mnemonic);
-
+        primary = GUIState.getStage();
+        primary.setTitle("下划线君的OCR翻译机 v"+version);
         Executor executor = taskExecutePool.myTaskAsyncPool();
+        //开始识别
+        mainStart.setOnAction(event -> executor.execute(() -> {
+            if (sceneDaos.size() > 0) {
+                logger.info("开始整个识别流程!识别间隔 :" + threadSleep);
+                startInt = true;
+                while (startInt) {
+                    timingGetScreenImg(null);
+                    try {
+                        Thread.sleep(threadSleep);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            logger.info("识别已停止!");
+        }));
+        //停止
+        mainStop.setOnAction(event -> ocrStop());
+        //打开选项
+        showOptionMenuItem.setOnAction(event -> showOptionController.showOption());
+        //测试
+        showOcrTxtMenu.setOnAction(event -> showOcrTxt());
+        //选取翻译位置
+        getSceneDaoImgButton.setOnAction(event -> choose());
+        //管理选择框
+        showMainMarqueeButton.setOnAction(event -> listController.showMainMarquee());
+        //显示文本框
+        startShowTextButton.setOnAction(event -> showTxtController.startShowText());
+        //关闭文本框
+        offShowTextButton.setOnAction(event -> showTxtController.offShowText());
+
+
         executor.execute(() -> {
             while (true) {
                 try {
@@ -209,6 +207,97 @@ public class MainController {
                 }
             }
         });
+
+    }
+
+
+    public void start(Stage primaryStage) {
+
+        BorderPane anchorPane = null;
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            URL url = fxmlLoader.getClassLoader().getResource("view/Main.fxml");
+            fxmlLoader.setLocation(url);
+            anchorPane = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        Scene scene = new Scene(anchorPane);
+        primaryStage.setTitle("下划线君的OCR翻译机 v0.4");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+
+//
+//        primary = primaryStage;
+//        //顶级
+//        AnchorPane root = new AnchorPane();
+//        //定义截图后的图片
+//        iv = new ImageView();
+//        iv.setFitWidth(400);
+//        iv.setPreserveRatio(true);
+//        iv2 = new ImageView();
+//        iv2.setFitWidth(400);
+//        iv2.setPreserveRatio(true);
+//
+//        root.getChildren().add(iv);
+//        root.getChildren().add(iv2);
+//        AnchorPane.setTopAnchor(iv, 100.0);
+//        AnchorPane.setTopAnchor(iv2, 300.0);
+//        AnchorPane.setLeftAnchor(iv, 30.0);
+//        AnchorPane.setLeftAnchor(iv2, 30.0);
+//
+//        Scene scene = new Scene(root);
+//        primaryStage.setTitle("下划线君的OCR翻译机 v0.4");
+//        primaryStage.setScene(scene);
+//        primaryStage.setHeight(500);
+//        primaryStage.setWidth(500);
+//        primaryStage.show();
+//
+//        //按钮
+//        Button button = new Button("选取翻译位置");
+//        root.getChildren().add(button);
+//        AnchorPane.setTopAnchor(button, 25.0);
+//        AnchorPane.setLeftAnchor(button, 25.0);
+//
+//        //测试按钮
+//        Button buttonTest = new Button("翻译测试");
+//        root.getChildren().add(buttonTest);
+//        AnchorPane.setTopAnchor(buttonTest, 25.0);
+//        AnchorPane.setRightAnchor(buttonTest, 80.0);
+//        buttonTest.setOnAction(event -> showOcrTxt());
+//
+//        //翻译位置管理按钮
+//        Button buttonMarquee = new Button("翻译位置管理");
+//        root.getChildren().add(buttonMarquee);
+//        AnchorPane.setTopAnchor(buttonMarquee, 25.0);
+//        AnchorPane.setLeftAnchor(buttonMarquee, 120.0);
+//        buttonMarquee.setOnAction(event -> listController.showMainMarquee());
+//        //显示文本框
+//        Button showTxt = new Button("显示文本框");
+//        root.getChildren().add(showTxt);
+//        AnchorPane.setTopAnchor(showTxt, 25.0);
+//        AnchorPane.setLeftAnchor(showTxt, 250.0);
+//        showTxt.setOnAction(event -> showTxtController.startShowText());
+//        //关闭所有文本
+//        Button offShowTex = new Button("关闭文本框");
+//        root.getChildren().add(offShowTex);
+//        AnchorPane.setTopAnchor(offShowTex, 50.0);
+//        AnchorPane.setLeftAnchor(offShowTex, 250.0);
+//        offShowTex.setOnAction(event -> showTxtController.offShowTxt());
+//
+//
+//        //定义按钮事件
+//        button.setOnAction(event -> choose());
+//        KeyCombination keyCombination = KeyCombination.valueOf("alt+a");
+//        //定义快捷键
+//        Mnemonic mnemonic = new Mnemonic(button, keyCombination);
+//        scene.addMnemonic(mnemonic);
+//
+//        Executor executor = taskExecutePool.myTaskAsyncPool();
+
     }
 
 
@@ -356,33 +445,74 @@ public class MainController {
      * @param
      */
     public void getScreenImg() {
+        Executor executor = taskExecutePool.myTaskAsyncPool();
+        //文本窗口最小化
 
-        sceneDaos.forEach(sceneDao -> {
-            double sceneX_start = sceneDao.getSceneX_start();
-            double sceneY_start = sceneDao.getSceneY_start();
-            double sceneX_End = sceneDao.getSceneX_End();
-            double sceney_End = sceneDao.getSceney_End();
-            if (stage != null && sceneX_start != 0.0d && sceneY_start != 0.0d) {
-                int w = (int) (sceneX_End - sceneX_start);
-                int h = (int) (sceney_End - sceneY_start);
-
-                try {
-                    Robot robot = new Robot();
-                    Rectangle rectangle = new Rectangle((int) sceneX_start, (int) sceneY_start, w, h);
-                    //获取到截图
-                    BufferedImage screenCapture = robot.createScreenCapture(rectangle);
-                    //把截图保存到对象
-                    sceneDao.setImage(screenCapture);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+        Task<Integer> task = new Task<Integer>() {
+            @Override
+            protected void updateValue(Integer value) {
+                synchronized (lock2){
+                super.updateValue(value);
+                logger.info("最小化文本窗口");
+                ShowTxtController.stageList.forEach(s -> s.setIconified(true));
+                lock2.notifyAll();
                 }
-
-            } else {
-                logger.info("没有打开过截图");
             }
-        });
 
+            @Override
+            protected Integer call() throws Exception {
+                return null;
+            }
+        };
+        executor.execute(task);
+        synchronized (lock2) {
+            try {
+                lock2.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            sceneDaos.forEach(sceneDao -> {
+                double sceneX_start = sceneDao.getSceneX_start();
+                double sceneY_start = sceneDao.getSceneY_start();
+                double sceneX_End = sceneDao.getSceneX_End();
+                double sceney_End = sceneDao.getSceney_End();
+                if (stage != null && sceneX_start != 0.0d && sceneY_start != 0.0d) {
+                    int w = (int) (sceneX_End - sceneX_start);
+                    int h = (int) (sceney_End - sceneY_start);
+
+                    try {
+                        Robot robot = new Robot();
+                        Rectangle rectangle = new Rectangle((int) sceneX_start, (int) sceneY_start, w, h);
+                        //获取到截图
+                        BufferedImage screenCapture = robot.createScreenCapture(rectangle);
+                        //把截图保存到对象
+                        sceneDao.setImage(screenCapture);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    logger.info("没有打开过截图");
+                }
+            });
+        }
+        Task<Integer> task2 = new Task<Integer>() {
+            @Override
+            protected void updateValue(Integer value) {
+                super.updateValue(value);
+                    logger.info("最大化文本窗口");
+                    ShowTxtController.stageList.forEach(s -> s.setIconified(false));
+
+            }
+
+            @Override
+            protected Integer call() throws Exception {
+                return null;
+            }
+        };
+        //文本窗口最大化
+        executor.execute(task2);
     }
 
 
@@ -413,16 +543,16 @@ public class MainController {
         menu1.getItems().add(menuItem1);
         menuBar.getMenus().add(menu);
         menuBar.getMenus().add(menu1);
-        menuItem.setOnAction(event -> ocrTxtController.showOcrTxtBox());
-        ocrStop.setOnAction(MainController::handle);
+        menuItem.setOnAction(event -> showOptionController.showOption());
+        ocrStop.setOnAction(event -> ocrStop());
         Scene finalScene = scene;
         Executor executor = taskExecutePool.myTaskAsyncPool();
         ocrStart.setOnAction(event -> {
             executor.execute(() -> {
                 if (sceneDaos.size() > 0) {
                     logger.info("开始整个识别流程!识别间隔 :" + threadSleep);
-                    startInt = 1;
-                    while (startInt == 1) {
+                    startInt = true;
+                    while (startInt) {
                         timingGetScreenImg(finalScene);
                         try {
                             Thread.sleep(threadSleep);
@@ -446,7 +576,9 @@ public class MainController {
 
 
     /**
-     * 开始截图翻译
+     * 开始截图翻译流程
+     *
+     * @param scene null 表示不用赋值给界面文本档
      */
     public void timingGetScreenImg(Scene scene) {
         if (sceneDaos.size() > 0) {
@@ -458,9 +590,6 @@ public class MainController {
             getScreenImg();
             //把sceneDaos中的对象全部识别
             orcIdentify();
-
-            TextArea txt_original = (TextArea) scene.lookup("#ocr1");
-            TextArea txt_origina2 = (TextArea) scene.lookup("#ocr2");
 
             StringBuilder txt1 = new StringBuilder();
 
@@ -476,10 +605,11 @@ public class MainController {
 
             //赋值给sceneDaos译文这里需要注意根据#id来区分翻译选择框,进入百度api之后如果识别为乱码#id可能不会返回!
             if (!allTxtMap.containsKey(allTxt)) {
+
                 List<String> baiduTxt = getBaiduApi(allTxt);
                 logger.info("百度翻译 : " + baiduTxt);
 
-                synchronized (lock){
+                synchronized (lock) {
                     baiduTxt.forEach(s -> {
                         String[] split = s.split("\"id\"");
                         sceneDaos.forEach(sceneDao -> {
@@ -491,15 +621,20 @@ public class MainController {
                     //去通知更新showTxt显示的文本框
                     lock.notifyAll();
                     logger.info("发出通知要求更新文本框");
-                    flag =true;
+//                    flag =true;
                 }
 
 
+                if (scene != null) {
+                    TextArea txt_original = (TextArea) scene.lookup("#ocr1");
+                    TextArea txt_origina2 = (TextArea) scene.lookup("#ocr2");
 
-                String join = StringUtils.join(Arrays.asList(baiduTxt.toArray()), "\n\n");
-                //重新复制给文本
-                txt_origina2.setText(join);
-                txt_original.setText(allTxt);
+                    String join = StringUtils.join(Arrays.asList(baiduTxt.toArray()), "\n\n");
+                    //重新复制给文本
+                    txt_origina2.setText(join);
+                    txt_original.setText(allTxt);
+                }
+
 
             } else {
                 logger.info("baiduApi没有调用,已翻译过");
@@ -509,6 +644,7 @@ public class MainController {
                     allTxtMap.clear();
                 }
             }
+
             allTxtMap.put(allTxt, new Date());
         } else {
             logger.info("没有选框对象");
@@ -593,4 +729,6 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
+
 }

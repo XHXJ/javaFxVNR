@@ -1,5 +1,8 @@
 package com.xhxj.ocr;
 
+import net.sourceforge.tess4j.util.LoggHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -29,7 +32,6 @@ public class ShowTxtTaskExecutePool {
         executor.setKeepAliveSeconds(300);
         //线程名字前缀
         executor.setThreadNamePrefix("ShowThread-");
-
         // setRejectedExecutionHandler：当pool已经达到max size的时候，如何处理新任务
         // CallerRunsPolicy：不在新线程中执行任务，而是由调用者所在的线程来执行
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
