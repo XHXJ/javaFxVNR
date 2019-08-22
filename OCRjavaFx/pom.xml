@@ -52,7 +52,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -85,6 +84,22 @@
             <groupId>de.roskenet</groupId>
             <artifactId>springboot-javafx-support</artifactId>
             <version>2.1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>marvin.MarvinDefinitions</groupId>
+            <artifactId>marvin</artifactId>
+            <version>1.5.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/marvin/framework/marvin_1.5.5.jar
+            </systemPath>
+        </dependency>
+        <dependency>
+            <groupId>marvin.MarvinDefinitions</groupId>
+            <artifactId>jviolajones</artifactId>
+            <version>2.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jviolajones2.0.jar
+            </systemPath>
         </dependency>
     </dependencies>
 

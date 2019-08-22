@@ -13,8 +13,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * 创建线程池
- * Created by Fant.J.
+ * @description:
+ * @author: zdthm2010@gmail.com
+ * @date: 2019-08-19 02:01
  */
 @Configuration
 @EnableAsync
@@ -29,7 +30,7 @@ public class TaskExecutePool {
         //队列容量
         executor.setQueueCapacity(20);
         //活跃时间
-        executor.setKeepAliveSeconds(300);
+        executor.setKeepAliveSeconds(3000);
         //线程名字前缀
         executor.setThreadNamePrefix("OCRThread-");
         // setRejectedExecutionHandler：当pool已经达到max size的时候，如何处理新任务

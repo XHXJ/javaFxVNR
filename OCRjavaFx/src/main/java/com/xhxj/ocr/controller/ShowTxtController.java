@@ -4,6 +4,7 @@ import com.xhxj.ocr.ShowTxtTaskExecutePool;
 import com.xhxj.ocr.TaskExecutePool;
 import com.xhxj.ocr.dao.SceneDao;
 import com.xhxj.ocr.tool.TimingShowServiceTask;
+import javafx.application.Platform;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -55,7 +56,7 @@ public class ShowTxtController {
      */
     public void startShowText() {
         Executor executor = showTxtTaskExecutePool.myTaskAsyncPool();
-
+//        Platform.setImplicitExit(false);
 
         //把所有的sceneDaos显示出来
         for (SceneDao sceneDao : MainController.sceneDaos) {
@@ -113,8 +114,6 @@ public class ShowTxtController {
             showTxtStage.show();
 
             TimingShowServiceTask timingShowServiceTask = new TimingShowServiceTask();
-
-
             //启用更新文字线程
             timingShowServiceTask.setName(sceneDao.getName());
             timingShowServiceTask.setDelay(Duration.seconds(1));
@@ -127,9 +126,6 @@ public class ShowTxtController {
                     textArea.setText(newValue);
                 }
             });
-
-            //启用截图最小化的线程
-
 
             timingShowServiceTasks.add(timingShowServiceTask);
             stageList.add(showTxtStage);

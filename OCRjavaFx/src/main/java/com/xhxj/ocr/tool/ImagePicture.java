@@ -1,88 +1,206 @@
 package com.xhxj.ocr.tool;
 
-        import com.xhxj.ocr.controller.MainController;
-        import net.sourceforge.tess4j.util.LoggHelper;
-        import org.slf4j.Logger;
-        import org.slf4j.LoggerFactory;
+import com.xhxj.ocr.controller.MainController;
+import net.sourceforge.tess4j.util.LoggHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-        import java.awt.Color;
-        import java.awt.image.BufferedImage;
-        import java.io.File;
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class ImagePicture {
 
-    private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
+    private final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
 
 
-
-//    public static void main(String[] args) throws IOException {
-//        BufferedImage bi=ImageIO.read(new File("C:\\Users\\78222\\Desktop\\测试\\Annotation 2019-08-14 230558.png"));//通过imageio将图像载入
-//        int h=bi.getHeight();//获取图像的高
-//        int w=bi.getWidth();//获取图像的宽
-//        int rgb=bi.getRGB(0, 0);//获取指定坐标的ARGB的像素值
-//        int[][] gray=new int[w][h];
-//        for (int x = 0; x < w; x++) {
-//            for (int y = 0; y < h; y++) {
-//                gray[x][y]=getGray(bi.getRGB(x, y));
-//            }
+    /**
+     * @param bufferedImage   需要去噪的图像
+     * @param destdir 去噪后的图像保存地址
+     * @throws IOException
+     */
+    public BufferedImage cleanLinesInImage(BufferedImage bufferedImage) throws IOException {
+//        File destF = new File(destDir);
+//        if (!destF.exists())
+//        {
+//            destF.mkdirs();
 //        }
 //
-//        BufferedImage nbi=new BufferedImage(w,h,BufferedImage.TYPE_BYTE_BINARY);
-//        int SW=150;
-//        for (int x = 0; x < w; x++) {
-//            for (int y = 0; y < h; y++) {
-//                if(getAverageColor(gray, x, y, w, h)>SW){
-//                    int max=new Color(255,255,255).getRGB();
-//                    nbi.setRGB(x, y, max);
-//                }else{
-//                    int min=new Color(0,0,0).getRGB();
-//                    nbi.setRGB(x, y, min);
+//        BufferedImage bufferedImage = ImageIO.read(sfile);
+        int h = bufferedImage.getHeight();
+        int w = bufferedImage.getWidth();
+
+        // 灰度化
+        int[][] gray = new int[w][h];
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                int argb = bufferedImage.getRGB(x, y);
+                // 图像加亮（调整亮度识别率非常高）
+                int r = (int) (((argb >> 16) & 0xFF) * 1.1 + 30);
+                int g = (int) (((argb >> 8) & 0xFF) * 1.1 + 30);
+                int b = (int) (((argb >> 0) & 0xFF) * 1.1 + 30);
+                if (r >= 255) {
+                    r = 255;
+                }
+                if (g >= 255) {
+                    g = 255;
+                }
+                if (b >= 255) {
+                    b = 255;
+                }
+                gray[x][y] = (int) Math
+                        .pow((Math.pow(r, 2.2) * 0.2973 + Math.pow(g, 2.2)
+                                * 0.6274 + Math.pow(b, 2.2) * 0.0753), 1 / 2.2);
+            }
+        }
+
+        // 二值化
+        int threshold = ostu(gray, w, h);
+        BufferedImage binaryBufferedImage = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_BINARY);
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                if (gray[x][y] > threshold) {
+                    gray[x][y] |= 0x00FFFF;
+                } else {
+                    gray[x][y] &= 0xFF0000;
+                }
+                binaryBufferedImage.setRGB(x, y, gray[x][y]);
+            }
+        }
+
+//        //去除干扰线条
+//        for(int y = 1; y < h-1; y++){
+//            for(int x = 1; x < w-1; x++){
+//                boolean flag = false ;
+//                if(isBlack(binaryBufferedImage.getRGB(x, y))){
+//                    //左右均为空时，去掉此点
+//                    if(isWhite(binaryBufferedImage.getRGB(x-1, y)) && isWhite(binaryBufferedImage.getRGB(x+1, y))){
+//                        flag = true;
+//                    }
+//                    //上下均为空时，去掉此点
+//                    if(isWhite(binaryBufferedImage.getRGB(x, y+1)) && isWhite(binaryBufferedImage.getRGB(x, y-1))){
+//                        flag = true;
+//                    }
+//                    //斜上下为空时，去掉此点
+//                    if(isWhite(binaryBufferedImage.getRGB(x-1, y+1)) && isWhite(binaryBufferedImage.getRGB(x+1, y-1))){
+//                        flag = true;
+//                    }
+//                    if(isWhite(binaryBufferedImage.getRGB(x+1, y+1)) && isWhite(binaryBufferedImage.getRGB(x-1, y-1))){
+//                        flag = true;
+//                    }
+//                    if(flag){
+//                        binaryBufferedImage.setRGB(x,y,-1);
+//                    }
 //                }
 //            }
 //        }
-//
-//        ImageIO.write(nbi, "png", new File("C:\\Users\\78222\\Desktop\\测试\\test.png"));
-//    }
-//
-//    public static int getGray(int rgb){
-//        String str=Integer.toHexString(rgb);
-//        int r=Integer.parseInt(str.substring(2,4),16);
-//        int g=Integer.parseInt(str.substring(4,6),16);
-//        int b=Integer.parseInt(str.substring(6,8),16);
-//        //or 直接new个color对象
-//        Color c=new Color(rgb);
-//        r=c.getRed();
-//        g=c.getGreen();
-//        b=c.getBlue();
-//        int top=(r+g+b)/3;
-//        return (int)(top);
-//    }
-//
-//    /**
-//     * 自己加周围8个灰度值再除以9，算出其相对灰度值
-//     * @param gray
-//     * @param x
-//     * @param y
-//     * @param w
-//     * @param h
-//     * @return
-//     */
-//    public static int  getAverageColor(int[][] gray, int x, int y, int w, int h)
-//    {
-//        int rs = gray[x][y]
-//                + (x == 0 ? 255 : gray[x - 1][y])
-//                + (x == 0 || y == 0 ? 255 : gray[x - 1][y - 1])
-//                + (x == 0 || y == h - 1 ? 255 : gray[x - 1][y + 1])
-//                + (y == 0 ? 255 : gray[x][y - 1])
-//                + (y == h - 1 ? 255 : gray[x][y + 1])
-//                + (x == w - 1 ? 255 : gray[x + 1][ y])
-//                + (x == w - 1 || y == 0 ? 255 : gray[x + 1][y - 1])
-//                + (x == w - 1 || y == h - 1 ? 255 : gray[x + 1][y + 1]);
-//        return rs / 9;
-//    }
 
 
-    public BufferedImage getImagePicture(BufferedImage image) {
+//        // 矩阵打印
+//        for (int y = 0; y < h; y++)
+//        {
+//            for (int x = 0; x < w; x++)
+//            {
+//                if (isBlack(binaryBufferedImage.getRGB(x, y)))
+//                {
+//                    System.out.print("*");
+//                } else
+//                {
+//                    System.out.print(" ");
+//                }
+//            }
+//            System.out.println();
+//        }
+
+//        ImageIO.write(binaryBufferedImage, "jpg", new File(destDir, sfile
+//                .getName()));
+
+        return binaryBufferedImage;
+    }
+
+    private boolean isBlack(int colorInt) {
+        Color color = new Color(colorInt);
+        if (color.getRed() + color.getGreen() + color.getBlue() <= 300) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isWhite(int colorInt) {
+        Color color = new Color(colorInt);
+        if (color.getRed() + color.getGreen() + color.getBlue() > 300) {
+            return true;
+        }
+        return false;
+    }
+
+    private int isBlackOrWhite(int colorInt) {
+        if (getColorBright(colorInt) < 30 || getColorBright(colorInt) > 730) {
+            return 1;
+        }
+        return 0;
+    }
+
+    private int getColorBright(int colorInt) {
+        Color color = new Color(colorInt);
+        return color.getRed() + color.getGreen() + color.getBlue();
+    }
+
+    private int ostu(int[][] gray, int w, int h) {
+        int[] histData = new int[w * h];
+        // Calculate histogram
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                int red = 0xFF & gray[x][y];
+                histData[red]++;
+            }
+        }
+
+        // Total number of pixels
+        int total = w * h;
+
+        float sum = 0;
+        for (int t = 0; t < 256; t++)
+            sum += t * histData[t];
+
+        float sumB = 0;
+        int wB = 0;
+        int wF = 0;
+
+        float varMax = 0;
+        int threshold = 0;
+
+        for (int t = 0; t < 256; t++) {
+            wB += histData[t]; // Weight Background
+            if (wB == 0)
+                continue;
+
+            wF = total - wB; // Weight Foreground
+            if (wF == 0)
+                break;
+
+            sumB += (float) (t * histData[t]);
+
+            float mB = sumB / wB; // Mean Background
+            float mF = (sum - sumB) / wF; // Mean Foreground
+
+            // Calculate Between Class Variance
+            float varBetween = (float) wB * (float) wF * (mB - mF) * (mB - mF);
+
+            // Check if new maximum found
+            if (varBetween > varMax) {
+                varMax = varBetween;
+                threshold = t;
+            }
+        }
+
+        return threshold;
+    }
+
+
+    private BufferedImage getImagePicture(BufferedImage image) {
 //        BufferedImage image = ImageIO.read(new File("C:\\Users\\78222\\Desktop\\测试\\Annotation 2019-08-14 230558.png"));
         int w = image.getWidth();
         int h = image.getHeight();
@@ -92,7 +210,7 @@ public class ImagePicture {
         float red = 0;
         float green = 0;
         float blue = 0;
-        BufferedImage bi= new BufferedImage(w, h,
+        BufferedImage bi = new BufferedImage(w, h,
                 BufferedImage.TYPE_BYTE_BINARY);
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
@@ -103,7 +221,7 @@ public class ImagePicture {
                 red += rgb[0];
                 green += rgb[1];
                 blue += rgb[2];
-                float avg = (rgb[0]+rgb[1]+rgb[2])/3;
+                float avg = (rgb[0] + rgb[1] + rgb[2]) / 3;
                 zuobiao[x][y] = avg;
 
             }
@@ -114,7 +232,7 @@ public class ImagePicture {
                 if (zuobiao[x][y] <= SW) {
                     int max = new Color(0, 0, 0).getRGB();
                     bi.setRGB(x, y, max);
-                }else{
+                } else {
                     int min = new Color(255, 255, 255).getRGB();
                     bi.setRGB(x, y, min);
                 }

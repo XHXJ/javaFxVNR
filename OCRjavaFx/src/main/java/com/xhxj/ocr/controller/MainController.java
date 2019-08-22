@@ -29,10 +29,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import net.sourceforge.tess4j.ITesseract;
-import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.*;
+import net.sourceforge.tess4j.util.ImageHelper;
 import net.sourceforge.tess4j.util.LoggHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,8 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
+
+import static net.sourceforge.tess4j.ITessAPI.TessParagraphJustification.JUSTIFICATION_LEFT;
 
 
 /**
@@ -111,8 +114,6 @@ public class MainController {
 
     //保存所有翻译过的原文
     static HashMap<String, Date> allTxtMap = new HashMap<>();
-//    //输出路径
-//    File out = new File("out");
 
     //开始关闭
     private static boolean startInt = true;
@@ -159,7 +160,7 @@ public class MainController {
     public void initialize() {
 
         primary = GUIState.getStage();
-        primary.setTitle("下划线君的OCR翻译机 v"+version);
+        primary.setTitle("下划线君的OCR翻译机 v" + version);
         Executor executor = taskExecutePool.myTaskAsyncPool();
         //开始识别
         mainStart.setOnAction(event -> executor.execute(() -> {
@@ -191,8 +192,6 @@ public class MainController {
         startShowTextButton.setOnAction(event -> showTxtController.startShowText());
         //关闭文本框
         offShowTextButton.setOnAction(event -> showTxtController.offShowText());
-
-
         executor.execute(() -> {
             while (true) {
                 try {
@@ -205,7 +204,7 @@ public class MainController {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+        }
         });
 
     }
@@ -448,71 +447,77 @@ public class MainController {
         Executor executor = taskExecutePool.myTaskAsyncPool();
         //文本窗口最小化
 
-        Task<Integer> task = new Task<Integer>() {
-            @Override
-            protected void updateValue(Integer value) {
-                synchronized (lock2){
-                super.updateValue(value);
-                logger.info("最小化文本窗口");
-                ShowTxtController.stageList.forEach(s -> s.setIconified(true));
-                lock2.notifyAll();
+//        Task<Integer> task = new Task<Integer>() {
+//            @Override
+//            protected void updateValue(Integer value) {
+//                synchronized (lock2) {
+//                    super.updateValue(value);
+//                    logger.info("最小化文本窗口");
+//                    ShowTxtController.stageList.forEach(s ->
+//                                    s.setIconified(true)
+////                            s.close()
+//                    );
+//                    lock2.notifyAll();
+//                }
+//            }
+//
+//            @Override
+//            protected Integer call() throws Exception {
+//                return null;
+//            }
+//        };
+//        executor.execute(task);
+//        synchronized (lock2) {
+//            try {
+//                lock2.wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+        sceneDaos.forEach(sceneDao -> {
+            double sceneX_start = sceneDao.getSceneX_start();
+            double sceneY_start = sceneDao.getSceneY_start();
+            double sceneX_End = sceneDao.getSceneX_End();
+            double sceney_End = sceneDao.getSceney_End();
+            if (stage != null && sceneX_start != 0.0d && sceneY_start != 0.0d) {
+                int w = (int) (sceneX_End - sceneX_start);
+                int h = (int) (sceney_End - sceneY_start);
+
+                try {
+                    Robot robot = new Robot();
+                    Rectangle rectangle = new Rectangle((int) sceneX_start, (int) sceneY_start, w, h);
+                    //获取到截图
+                    BufferedImage screenCapture = robot.createScreenCapture(rectangle);
+                    //把截图保存到对象
+                    sceneDao.setImage(screenCapture);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
+            } else {
+                logger.info("没有打开过截图");
             }
-
-            @Override
-            protected Integer call() throws Exception {
-                return null;
-            }
-        };
-        executor.execute(task);
-        synchronized (lock2) {
-            try {
-                lock2.wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            sceneDaos.forEach(sceneDao -> {
-                double sceneX_start = sceneDao.getSceneX_start();
-                double sceneY_start = sceneDao.getSceneY_start();
-                double sceneX_End = sceneDao.getSceneX_End();
-                double sceney_End = sceneDao.getSceney_End();
-                if (stage != null && sceneX_start != 0.0d && sceneY_start != 0.0d) {
-                    int w = (int) (sceneX_End - sceneX_start);
-                    int h = (int) (sceney_End - sceneY_start);
-
-                    try {
-                        Robot robot = new Robot();
-                        Rectangle rectangle = new Rectangle((int) sceneX_start, (int) sceneY_start, w, h);
-                        //获取到截图
-                        BufferedImage screenCapture = robot.createScreenCapture(rectangle);
-                        //把截图保存到对象
-                        sceneDao.setImage(screenCapture);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    logger.info("没有打开过截图");
-                }
-            });
-        }
-        Task<Integer> task2 = new Task<Integer>() {
-            @Override
-            protected void updateValue(Integer value) {
-                super.updateValue(value);
-                    logger.info("最大化文本窗口");
-                    ShowTxtController.stageList.forEach(s -> s.setIconified(false));
-
-            }
-
-            @Override
-            protected Integer call() throws Exception {
-                return null;
-            }
-        };
-        //文本窗口最大化
-        executor.execute(task2);
+        });
+//        }
+//        Task<Integer> task2 = new Task<Integer>() {
+//            @Override
+//            protected void updateValue(Integer value) {
+//                super.updateValue(value);
+//                logger.info("最大化文本窗口");
+//                ShowTxtController.stageList.forEach(s ->
+//                                s.setIconified(false)
+////                        s.show()
+//                );
+//
+//            }
+//
+//            @Override
+//            protected Integer call() throws Exception {
+//                return null;
+//            }
+//        };
+//        //文本窗口最大化
+//        executor.execute(task2);
     }
 
 
@@ -595,7 +600,7 @@ public class MainController {
 
             //获得翻译文本
             sceneDaos.forEach(sceneDao -> {
-                txt1.append(sceneDao.getName() + "\"id\"  ");
+                txt1.append(sceneDao.getName() + "\"IcDc\"  ");
                 txt1.append(sceneDao.getOriginal());
                 txt1.append("\n");
             });
@@ -611,7 +616,7 @@ public class MainController {
 
                 synchronized (lock) {
                     baiduTxt.forEach(s -> {
-                        String[] split = s.split("\"id\"");
+                        String[] split = s.split("“ICDC”");
                         sceneDaos.forEach(sceneDao -> {
                             if (sceneDao.getName().equals(split[0]) && split.length > 1) {
                                 sceneDao.setTranslation(split[1]);
@@ -637,6 +642,7 @@ public class MainController {
 
 
             } else {
+                //没有也要更新
                 logger.info("baiduApi没有调用,已翻译过");
                 //超过自动清空
                 if (allTxtMap.size() > 200) {
@@ -672,6 +678,8 @@ public class MainController {
         return txt;
     }
 
+    ITesseract instance;
+
     /**
      * ocr识别方法
      */
@@ -682,25 +690,36 @@ public class MainController {
         sceneDaos.forEach(sceneDao -> {
             //开启多线程
             executor.execute(() -> {
-
+                BufferedImage image = sceneDao.getImage();
 //                Runtime runtime = Runtime.getRuntime();
 //                StringBuilder sumtxt = new StringBuilder();
                 logger.info("OCR识别开始");
                 Date stardata = new Date();
-                ITesseract iTesseract = new Tesseract();
-                iTesseract.setDatapath(tessdataPath);
-                iTesseract.setLanguage(ocrLanguage);
                 try {
                     if (colorBoolean) {
                         logger.info("启用二值化输出");
                         //把图像二值后输出
                         ImagePicture imagePicture = new ImagePicture();
-                        sceneDao.setImage(imagePicture.getImagePicture(sceneDao.getImage()));
-                        ;
+//                        BufferedImage image = sceneDao.getImage();
+//                        image = ImageHelper.getScaledInstance(image, (int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5));
+                        image = imagePicture.cleanLinesInImage(image);
+                        sceneDao.setImage(image);
                     }
 
 
-                    String s = iTesseract.doOCR(sceneDao.getImage());
+//                    String s = iTesseract.doOCR(sceneDao.getImage());
+                    StringBuilder s = new StringBuilder();
+                    instance = new Tesseract();
+                    instance.setDatapath(tessdataPath);
+                    instance.setLanguage(ocrLanguage);
+//                    instance.setPageSegMode(ITessAPI.TessPageSegMode.PSM_AUTO_OSD);
+                    List<Word> words = instance.getWords(image, TessAPI.TessPageIteratorLevel.RIL_PARA);
+                    words.forEach(word -> {
+                        if (word.getConfidence() > 70) {
+                            s.append(word.getText());
+                        }
+                    });
+
                     long sum = new Date().getTime() - stardata.getTime();
                     logger.info("完成识别 : \n" + s + "\n共耗时 : " + sum);
 
@@ -714,7 +733,7 @@ public class MainController {
 //                    }
 //                    bf.close();
 
-                    String replace = s.replace(" ", "").replace("\n", "");
+                    String replace = new String(s).replace(" ", "").replace("\n", "");
                     sceneDao.setOriginal(replace);
                     latch.countDown();
                 } catch (Exception e) {
@@ -730,5 +749,31 @@ public class MainController {
         }
     }
 
+    /**
+     * 判断是否为纯色
+     *
+     * @param bu      图片源
+     * @param percent 纯色百分比，即大于此百分比为同一种颜色则判定为纯色,范围[0-1]
+     * @return
+     * @throws IOException
+     */
+    public boolean isSimpleColorImg(BufferedImage bu, float percent) throws IOException {
+        int height = bu.getHeight();
+        int width = bu.getWidth();
+        int count = 0, pixTemp = 0, pixel = 0;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                pixel = bu.getRGB(i, j);
+                if (pixel == pixTemp) //如果上一个像素点和这个像素点颜色一样的话，就判定为同一种颜色
+                    count++;
+                else
+                    count = 0;
+                if ((float) count / (height * width) >= percent) //如果连续相同的像素点大于设定的百分比的话，就判定为是纯色的图片
+                    return true;
+                pixTemp = pixel;
+            }
+        }
+        return false;
+    }
 
 }
