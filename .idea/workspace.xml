@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="17551369-9d68-4fc6-ac3d-6d7e08061942" name="Default Changelist" comment="更换了主窗口界面&#10;当截图时,显示的文本窗口会自动最小化.以及自动恢复">
+      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/test/resources/test-data/eurotext.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/test/resources/test-data/eurotext.tif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/test/resources/test-results/.gitignore" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="javaFxVNR">
+      <favorite_root url="file://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode">
+        <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/io" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/io/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/io/MarvinImageIO.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/component" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+              <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/component/MarvinMatrixPanel.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </favorite_root>
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/MarvinToolPanel.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/MarvinImagePanel.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/MarvinFilterWindow.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/MarvinPluginWindow.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/MarvinAttributesPanel.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/MarvinEditableImagePanel.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/gui/MarvinPluginWindowComponent.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/math" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/math/Point.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/math/MarvinMath.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/test" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/test/MarvinTestCase.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinFileUtils.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinJarLoader.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinAttributes.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinImageUtils.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinBoundingBox.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinFileChooser.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinErrorHandler.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinPluginLoader.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinStringParser.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/util/MarvinPluginHistory.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/color" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/color/MarvinColor.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/color/MarvinColorModelConverter.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/image" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/image/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/image/MarvinBlob.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/image/MarvinImage.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/image/MarvinContour.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/image/MarvinSegment.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/image/MarvinImageMap.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/image/MarvinImageMask.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/image/MarvinBlobSegment.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/video" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/video/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/video/MarvinJavaCVAdapter.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/video/MarvinVideoInterface.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/video/MarvinVideoInterfaceException.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin/MarvinPlugin.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin/MarvinToolPlugin.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin/MarvinImagePlugin.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin/MarvinAbstractPlugin.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin/MarvinAlgorithmPlugin.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin/MarvinAbstractToolPlugin.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin/MarvinAbstractImagePlugin.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/plugin/MarvinAbstractAlgorithmPlugin.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/thread" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/thread/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/thread/MarvinThread.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/thread/MarvinThreadEvent.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/thread/MarvinThreadListener.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/statistic" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/statistic/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/statistic/MarvinBarChart.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/statistic/MarvinHistogram.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/statistic/MarvinBarChartEntry.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/statistic/MarvinHistogramEntry.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/performance" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/performance/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/performance/MarvinPerformanceEntry.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/performance/MarvinPerformanceEvent.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/performance/MarvinPerformanceMeter.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/performance/MarvinPerformanceWindow.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/performance/MarvinPerformanceRegistry.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/package.html" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/machinelearning" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/machinelearning/decisiontree" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+              <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/machinelearning/decisiontree/DecisionTree.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/machinelearning/decisiontree/DecisionTreeNode.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </favorite_root>
+          </favorite_root>
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/MarvinDefinitions.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/marvin/MarvinPluginCollection.class" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        </favorite_root>
+        <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/META-INF" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+          <favorite_root url="jar://$PROJECT_DIR$/OCRjavaFx/marvin/framework/marvin_1.5.5.jar!/META-INF/MANIFEST.MF" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        </favorite_root>
+      </favorite_root>
+    </favorites_list>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="UPDATE_CHANGES_POLICY" value="SHELVE" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="C:\Users\78222\IdeaProjects\xhxjVNR\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="C:\MyProgramFiles\apache-maven-repository" />
+        <option name="mavenHome" value="C:/MyProgramFiles/apache-maven-3.6.1" />
+        <option name="userSettingsFile" value="C:\MyProgramFiles\apache-maven-3.6.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1PHW5CA0xgVjIab6lUt3m9eDIkN" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="ToolWindowDebug.ShowToolbar" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="jdk.selected.JAVA_MODULE" value="1.8 (2)" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/OCRjavaFx/src/test/java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../git/jviolajones" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="OPEN_URL_DIALOG">
+      <recent name="https://github.com/liumengjun/JavaScreenCaptureTool.git" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.xhxj.ocr" />
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources\lib" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\lib" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\webapp\WEB-INF\lib" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources\tessdata" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.xhxj.ocr" />
+      <recent name="com.xhxj.ocr.controller" />
+      <recent name="tess4j" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\marvin\lib" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\lib" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.OrcApplication">
+    <configuration name="TextRegions" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="textRegions.TextRegions" />
+      <module name="orc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="textRegions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test3" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xhxj.ocr.test3" />
+      <module name="orc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xhxj.ocr.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TextRegions" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="orc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="textRegions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="textRegions" />
+      <option name="MAIN_CLASS_NAME" value="textRegions.TextRegions" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TextRegions.test01" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="orc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="textRegions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="textRegions" />
+      <option name="MAIN_CLASS_NAME" value="textRegions.TextRegions" />
+      <option name="METHOD_NAME" value="test01" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TextRegions.test02" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="orc" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="textRegions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="textRegions" />
+      <option name="MAIN_CLASS_NAME" value="textRegions.TextRegions" />
+      <option name="METHOD_NAME" value="test02" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <module name="OCRjavaFx" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <module name="OCRjavaFx" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="WORKING_DIRECTORY" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OrcApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="orc" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.xhxj.ocr.OrcApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.test3" />
+      <item itemvalue="Application.TextRegions" />
+      <item itemvalue="JUnit.TextRegions.test01" />
+      <item itemvalue="JUnit.TextRegions" />
+      <item itemvalue="JUnit.TextRegions.test02" />
+      <item itemvalue="Spring Boot.OrcApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.TextRegions.test02" />
+        <item itemvalue="JUnit.TextRegions.test01" />
+        <item itemvalue="JUnit.TextRegions" />
+        <item itemvalue="Application.TextRegions" />
+        <item itemvalue="Application.test3" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <option name="contentProportion" value="0.04339092" />
+        <treeState>
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@28710e7" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+          </expand>
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="17551369-9d68-4fc6-ac3d-6d7e08061942" name="Default Changelist" comment="" />
+      <created>1565531316898</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1565531316898</updated>
+      <workItem from="1565531319400" duration="741000" />
+      <workItem from="1565532075796" duration="412000" />
+      <workItem from="1565532502238" duration="1709000" />
+      <workItem from="1565534228462" duration="15630000" />
+      <workItem from="1565550868618" duration="2184000" />
+      <workItem from="1565553112699" duration="1309000" />
+      <workItem from="1565554607762" duration="4753000" />
+      <workItem from="1565559393456" duration="3532000" />
+      <workItem from="1565562965421" duration="8758000" />
+      <workItem from="1565600589823" duration="3488000" />
+      <workItem from="1565604107814" duration="244000" />
+      <workItem from="1565604382923" duration="247000" />
+      <workItem from="1565604649932" duration="423000" />
+      <workItem from="1565605091540" duration="20008000" />
+      <workItem from="1565627923434" duration="1765000" />
+      <workItem from="1565629705209" duration="7130000" />
+      <workItem from="1565636887996" duration="8085000" />
+      <workItem from="1565645739663" duration="5218000" />
+      <workItem from="1565651386173" duration="514000" />
+      <workItem from="1565683934010" duration="35555000" />
+      <workItem from="1565720758087" duration="12987000" />
+      <workItem from="1565761298543" duration="10433000" />
+      <workItem from="1565772095401" duration="791000" />
+      <workItem from="1565774704707" duration="1376000" />
+      <workItem from="1565776096860" duration="15129000" />
+      <workItem from="1565793719591" duration="2265000" />
+      <workItem from="1565798380048" duration="25127000" />
+      <workItem from="1565861731800" duration="38724000" />
+      <workItem from="1565902872894" duration="2039000" />
+      <workItem from="1565948079768" duration="16820000" />
+      <workItem from="1565969177600" duration="9948000" />
+      <workItem from="1565980654615" duration="388000" />
+      <workItem from="1565981772894" duration="8983000" />
+      <workItem from="1566028465449" duration="34022000" />
+      <workItem from="1566122705879" duration="623000" />
+      <workItem from="1566145111064" duration="5330000" />
+      <workItem from="1566489085263" duration="266000" />
+    </task>
+    <task id="LOCAL-00001" summary="从头理了一遍多线程&#10;重新添加了tess4j,识别效率比之前快500ms左右&#10;添加了主窗口显示目前识别图像&#10;取消了输出成文件再识别,减少io&#10;添加了选项识别语言选择,tessdata路径指定">
+      <created>1565820515585</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1565820515585</updated>
+    </task>
+    <task id="LOCAL-00002" summary="从头理了一遍多线程&#10;重新添加了tess4j,识别效率比之前快500ms左右&#10;添加了主窗口显示目前识别图像&#10;取消了输出成文件再识别,减少io&#10;添加了选项识别语言选择,tessdata路径指定">
+      <created>1565820573664</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1565820573664</updated>
+    </task>
+    <task id="LOCAL-00003" summary="从头理了一遍多线程&#10;重新添加了tess4j,识别效率比之前快500ms左右&#10;添加了主窗口显示目前识别图像&#10;取消了输出成文件再识别,减少io&#10;添加了选项识别语言选择,tessdata路径指定">
+      <created>1565820754146</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1565820754146</updated>
+    </task>
+    <task id="LOCAL-00004" summary="修复了maven依赖问题,修复翻译文本显示多选择框混乱问题">
+      <created>1565824320421</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1565824320421</updated>
+    </task>
+    <task id="LOCAL-00005" summary="新增了透明悬浮识别文本框,可以分别显示翻译内容,每个窗口由单独线程控制.&#10;增减文本窗口的控制功能,优化多线程逻辑">
+      <created>1565901078670</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1565901078670</updated>
+    </task>
+    <task id="LOCAL-00006" summary="更换了主窗口界面&#10;当截图时,显示的文本窗口会自动最小化.以及自动恢复">
+      <created>1565973941851</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1565973941851</updated>
+    </task>
+    <task id="LOCAL-00007" summary="取消了文本框自动缩小,优化了二值化逻辑">
+      <created>1566489331658</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1566489331658</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:C:/Users/78222/IdeaProjects/javaFxVNR/OCRjavaFx/src/main/resources" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="OPEN_TABS">
+      <set>
+        <option value="1" />
+      </set>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="简化了二值化识别逻辑 新增二值化识别控制" />
+    <MESSAGE value="优化代码&#10;简化了二值化识别逻辑 新增二值化识别控制" />
+    <MESSAGE value="从头理了一遍多线程&#10;重新添加了tess4j,识别效率比之前快500ms左右&#10;添加了主窗口显示目前识别图像&#10;取消了输出成文件再识别,减少io&#10;添加了选项识别语言选择,tessdata路径指定" />
+    <MESSAGE value="修复了maven依赖问题,修复翻译文本显示多选择框混乱问题" />
+    <MESSAGE value="新增了透明悬浮识别文本框,可以分别显示翻译内容,每个窗口由单独线程控制.&#10;增减文本窗口的控制功能,优化多线程逻辑" />
+    <MESSAGE value="更换了主窗口界面&#10;当截图时,显示的文本窗口会自动最小化.以及自动恢复" />
+    <MESSAGE value="取消了文本框自动缩小,优化了二值化逻辑" />
+    <option name="LAST_COMMIT_MESSAGE" value="取消了文本框自动缩小,优化了二值化逻辑" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
+          <line>621</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
+          <line>613</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/xhxjVNR$OrcApplication.ic" NAME="OrcApplication Coverage Results" MODIFIED="1565705362318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/javaFxVNR$OrcApplication.ic" NAME="OrcApplication Coverage Results" MODIFIED="1565961629889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>
