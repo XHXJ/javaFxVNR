@@ -146,6 +146,7 @@ public class MainController {
 
     @FXML
     public void initialize() {
+        //读取配置文件
         new SysConfig().readSysConfig();
 
         primary = GUIState.getStage();
@@ -505,12 +506,15 @@ public class MainController {
             if (!allTxtMap.containsKey(allTxt)) {
 
                 List<String> baiduTxt = getBaiduApi(allTxt);
+
                 logger.info("百度翻译 : " + baiduTxt);
 
                 synchronized (lock) {
-                    //顺序取出赋值
-                    for (int i = 0; i < sceneDaos.size(); i++) {
-                        sceneDaos.get(i).setTranslation(baiduTxt.get(i));
+                    if (baiduTxt.size() > 0) {
+                        //顺序取出赋值
+                        for (int i = 0; i < sceneDaos.size(); i++) {
+                            sceneDaos.get(i).setTranslation(baiduTxt.get(i));
+                        }
                     }
 //                    baiduTxt.forEach(s -> {
 //                        String[] split = s.split("\n");
@@ -606,8 +610,13 @@ public class MainController {
                     long sum = new Date().getTime() - stardata.getTime();
                     logger.info("完成识别 : \n" + orc + "\n共耗时 : " + sum);
 //                    String replace = new String(orc).replace(" ", "").replace("\n", "");
-                    String replace = new String(orc).replace("\n", "");
-                    sceneDao.setOriginal(replace);
+                    if (orc.length() > 0) {
+                        String replace = new String(orc).replace("\n", "");
+                        sceneDao.setOriginal(replace);
+                    } else {
+                        sceneDao.setOriginal("NULL");
+                    }
+
                     latch.countDown();
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -1,6 +1,7 @@
 package com.xhxj.ocr.tool;
 
 import com.xhxj.ocr.controller.MainController;
+import com.xhxj.ocr.dao.SceneDao;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import net.sourceforge.tess4j.util.LoggHelper;
@@ -18,10 +19,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @Component
 public class TimingShowServiceTask extends ScheduledService<String> {
 
-
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
     private String name;
-
 
     public void setName(String name) {
         this.name = name;
@@ -36,11 +35,7 @@ public class TimingShowServiceTask extends ScheduledService<String> {
                 synchronized (MainController.lock){
                     MainController.lock.wait();
                     logger.info("文本更新线程执行");
-                    MainController.sceneDaos.forEach(sceneDao -> {
-                        if (name.equals(sceneDao.getName())) {
-                            translation = sceneDao.getTranslation();
-                        }
-                    });
+                    translation = MainController.sceneDaos.parallelStream().filter(sceneDao -> sceneDao.getName().equals(name)).findFirst().get().getTranslation();
                 }
                 return translation;
             }

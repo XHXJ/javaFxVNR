@@ -15,11 +15,6 @@ import java.io.*;
  * 结合fastjson使用
  */
 public class SysConfig {
-    /**
-     * fastjson通过get方法才能获取到成员变量,方便之后输出配置文件
-     *
-     * @return
-     */
 
     //识别间隔
     public static long threadSleep = 0;
@@ -32,8 +27,11 @@ public class SysConfig {
     //翻译语言设置
     public static String ocrLanguage = "jpn";
 
-
-
+    /**
+     * fastjson通过get方法才能获取到成员变量,方便之后输出配置文件
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "SysConfig{" +
