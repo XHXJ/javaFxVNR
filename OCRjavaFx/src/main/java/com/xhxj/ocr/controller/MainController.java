@@ -2,6 +2,7 @@ package com.xhxj.ocr.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xhxj.ocr.ShowTxtTaskExecutePool;
+import com.xhxj.ocr.SysConfig;
 import com.xhxj.ocr.TaskExecutePool;
 import com.xhxj.ocr.dao.FanyiBaiduDao;
 import com.xhxj.ocr.dao.FanyiBaiduTxtDao;
@@ -9,8 +10,6 @@ import com.xhxj.ocr.dao.SceneDao;
 import com.xhxj.ocr.tool.ImagePicture;
 import com.xhxj.ocr.tool.baidu.TransApi;
 import de.felixroske.jfxsupport.GUIState;
-import javafx.concurrent.ScheduledService;
-import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,7 +32,6 @@ import net.sourceforge.tess4j.*;
 import net.sourceforge.tess4j.util.ImageHelper;
 import net.sourceforge.tess4j.util.LoggHelper;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +46,9 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import static net.sourceforge.tess4j.ITessAPI.TessParagraphJustification.JUSTIFICATION_LEFT;
-
+import static com.xhxj.ocr.SysConfig.*;
 
 /**
  * @description:
@@ -69,13 +67,8 @@ public class MainController {
     ShowOptionController showOptionController;
     @Autowired
     ShowTxtController showTxtController;
-
-
-    //文字存取图片
-    @FXML
-    private ImageView iv;
-    @FXML
-    private ImageView iv2;
+//    @Autowired
+//    SysConfig sysConfig;
 
     BufferedImage bufferedImage;
 
@@ -101,16 +94,6 @@ public class MainController {
     //所有的选择框
     public static List<SceneDao> sceneDaos = new ArrayList<>();
 
-    //识别间隔
-    public static long threadSleep = 0;
-    //二值化阀值
-    public static double grayLeve = 170;
-    //启用二值化输出
-    public static Boolean colorBoolean = true;
-    //tessdata路径设置
-    public static String tessdataPath = "C:\\Program Files (x86)\\Tesseract-OCR\\tessdata";
-    //翻译语言设置
-    public static String ocrLanguage = "jpn";
 
     //保存所有翻译过的原文
     static HashMap<String, Date> allTxtMap = new HashMap<>();
@@ -152,12 +135,18 @@ public class MainController {
     private Button startShowTextButton;
     @FXML
     private Button offShowTextButton;
+    //文字存取图片
+    @FXML
+    private ImageView iv;
+    @FXML
+    private ImageView iv2;
 
     @Value("${version}")
     private String version;
 
     @FXML
     public void initialize() {
+        new SysConfig().readSysConfig();
 
         primary = GUIState.getStage();
         primary.setTitle("下划线君的OCR翻译机 v" + version);
@@ -204,101 +193,9 @@ public class MainController {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-        }
+            }
         });
-
     }
-
-
-    public void start(Stage primaryStage) {
-
-        BorderPane anchorPane = null;
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = fxmlLoader.getClassLoader().getResource("view/Main.fxml");
-            fxmlLoader.setLocation(url);
-            anchorPane = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        Scene scene = new Scene(anchorPane);
-        primaryStage.setTitle("下划线君的OCR翻译机 v0.4");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-
-//
-//        primary = primaryStage;
-//        //顶级
-//        AnchorPane root = new AnchorPane();
-//        //定义截图后的图片
-//        iv = new ImageView();
-//        iv.setFitWidth(400);
-//        iv.setPreserveRatio(true);
-//        iv2 = new ImageView();
-//        iv2.setFitWidth(400);
-//        iv2.setPreserveRatio(true);
-//
-//        root.getChildren().add(iv);
-//        root.getChildren().add(iv2);
-//        AnchorPane.setTopAnchor(iv, 100.0);
-//        AnchorPane.setTopAnchor(iv2, 300.0);
-//        AnchorPane.setLeftAnchor(iv, 30.0);
-//        AnchorPane.setLeftAnchor(iv2, 30.0);
-//
-//        Scene scene = new Scene(root);
-//        primaryStage.setTitle("下划线君的OCR翻译机 v0.4");
-//        primaryStage.setScene(scene);
-//        primaryStage.setHeight(500);
-//        primaryStage.setWidth(500);
-//        primaryStage.show();
-//
-//        //按钮
-//        Button button = new Button("选取翻译位置");
-//        root.getChildren().add(button);
-//        AnchorPane.setTopAnchor(button, 25.0);
-//        AnchorPane.setLeftAnchor(button, 25.0);
-//
-//        //测试按钮
-//        Button buttonTest = new Button("翻译测试");
-//        root.getChildren().add(buttonTest);
-//        AnchorPane.setTopAnchor(buttonTest, 25.0);
-//        AnchorPane.setRightAnchor(buttonTest, 80.0);
-//        buttonTest.setOnAction(event -> showOcrTxt());
-//
-//        //翻译位置管理按钮
-//        Button buttonMarquee = new Button("翻译位置管理");
-//        root.getChildren().add(buttonMarquee);
-//        AnchorPane.setTopAnchor(buttonMarquee, 25.0);
-//        AnchorPane.setLeftAnchor(buttonMarquee, 120.0);
-//        buttonMarquee.setOnAction(event -> listController.showMainMarquee());
-//        //显示文本框
-//        Button showTxt = new Button("显示文本框");
-//        root.getChildren().add(showTxt);
-//        AnchorPane.setTopAnchor(showTxt, 25.0);
-//        AnchorPane.setLeftAnchor(showTxt, 250.0);
-//        showTxt.setOnAction(event -> showTxtController.startShowText());
-//        //关闭所有文本
-//        Button offShowTex = new Button("关闭文本框");
-//        root.getChildren().add(offShowTex);
-//        AnchorPane.setTopAnchor(offShowTex, 50.0);
-//        AnchorPane.setLeftAnchor(offShowTex, 250.0);
-//        offShowTex.setOnAction(event -> showTxtController.offShowTxt());
-//
-//
-//        //定义按钮事件
-//        button.setOnAction(event -> choose());
-//        KeyCombination keyCombination = KeyCombination.valueOf("alt+a");
-//        //定义快捷键
-//        Mnemonic mnemonic = new Mnemonic(button, keyCombination);
-//        scene.addMnemonic(mnemonic);
-//
-//        Executor executor = taskExecutePool.myTaskAsyncPool();
-
-    }
-
 
     /**
      * 截图功能
@@ -324,8 +221,6 @@ public class MainController {
         stage.show();
         //选取框
         drag(an);
-
-
         //esc退出
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -489,11 +384,9 @@ public class MainController {
                     BufferedImage screenCapture = robot.createScreenCapture(rectangle);
                     //把截图保存到对象
                     sceneDao.setImage(screenCapture);
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             } else {
                 logger.info("没有打开过截图");
             }
@@ -600,9 +493,9 @@ public class MainController {
 
             //获得翻译文本
             sceneDaos.forEach(sceneDao -> {
-                txt1.append(sceneDao.getName() + "\"IcDc\"  ");
                 txt1.append(sceneDao.getOriginal());
                 txt1.append("\n");
+//                txt1.append("\n");
             });
             String allTxt = new String(txt1);
 
@@ -615,21 +508,23 @@ public class MainController {
                 logger.info("百度翻译 : " + baiduTxt);
 
                 synchronized (lock) {
-                    baiduTxt.forEach(s -> {
-                        String[] split = s.split("“ICDC”");
-                        sceneDaos.forEach(sceneDao -> {
-                            if (sceneDao.getName().equals(split[0]) && split.length > 1) {
-                                sceneDao.setTranslation(split[1]);
-                            }
-                        });
-                    });
+                    //顺序取出赋值
+                    for (int i = 0; i < sceneDaos.size(); i++) {
+                        sceneDaos.get(i).setTranslation(baiduTxt.get(i));
+                    }
+//                    baiduTxt.forEach(s -> {
+//                        String[] split = s.split("\n");
+//                        sceneDaos.forEach(sceneDao -> {
+//                            if (sceneDao.getName().equals(split[0]) && split.length > 1) {
+//                                sceneDao.setTranslation(split[1]);
+//                            }
+//                        });
+//                    });
+
                     //去通知更新showTxt显示的文本框
                     lock.notifyAll();
                     logger.info("发出通知要求更新文本框");
-//                    flag =true;
                 }
-
-
                 if (scene != null) {
                     TextArea txt_original = (TextArea) scene.lookup("#ocr1");
                     TextArea txt_origina2 = (TextArea) scene.lookup("#ocr2");
@@ -639,8 +534,6 @@ public class MainController {
                     txt_origina2.setText(join);
                     txt_original.setText(allTxt);
                 }
-
-
             } else {
                 //没有也要更新
                 logger.info("baiduApi没有调用,已翻译过");
@@ -650,7 +543,6 @@ public class MainController {
                     allTxtMap.clear();
                 }
             }
-
             allTxtMap.put(allTxt, new Date());
         } else {
             logger.info("没有选框对象");
@@ -665,7 +557,6 @@ public class MainController {
      */
     private List<String> getBaiduApi(String query) {
         TransApi api = new TransApi(APP_ID, SECURITY_KEY);
-
 //        String query = "生活の文化を笑颜であるし、何もない滞纳私たちは、常にする必要があるので苦い。";
         String transResult = api.getTransResult(query, "auto", "zh");
         logger.info("baiduApi message :" + transResult);
@@ -678,8 +569,6 @@ public class MainController {
         return txt;
     }
 
-    ITesseract instance;
-
     /**
      * ocr识别方法
      */
@@ -691,49 +580,33 @@ public class MainController {
             //开启多线程
             executor.execute(() -> {
                 BufferedImage image = sceneDao.getImage();
-//                Runtime runtime = Runtime.getRuntime();
-//                StringBuilder sumtxt = new StringBuilder();
                 logger.info("OCR识别开始");
                 Date stardata = new Date();
                 try {
-                    if (colorBoolean) {
+                    if (SysConfig.colorBoolean) {
                         logger.info("启用二值化输出");
                         //把图像二值后输出
                         ImagePicture imagePicture = new ImagePicture();
 //                        BufferedImage image = sceneDao.getImage();
-//                        image = ImageHelper.getScaledInstance(image, (int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5));
+                        image = ImageHelper.getScaledInstance(image, (int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5));
                         image = imagePicture.cleanLinesInImage(image);
                         sceneDao.setImage(image);
                     }
-
-
-//                    String s = iTesseract.doOCR(sceneDao.getImage());
-                    StringBuilder s = new StringBuilder();
-                    instance = new Tesseract();
-                    instance.setDatapath(tessdataPath);
-                    instance.setLanguage(ocrLanguage);
+                    StringBuilder orc = new StringBuilder();
+                    ITesseract instance = new Tesseract();
+                    instance.setDatapath(SysConfig.tessdataPath);
+                    instance.setLanguage(SysConfig.ocrLanguage);
 //                    instance.setPageSegMode(ITessAPI.TessPageSegMode.PSM_AUTO_OSD);
                     List<Word> words = instance.getWords(image, TessAPI.TessPageIteratorLevel.RIL_PARA);
                     words.forEach(word -> {
                         if (word.getConfidence() > 70) {
-                            s.append(word.getText());
+                            orc.append(word.getText());
                         }
                     });
-
                     long sum = new Date().getTime() - stardata.getTime();
-                    logger.info("完成识别 : \n" + s + "\n共耗时 : " + sum);
-
-
-//                    //读取识别后的文本
-//                    File txtFile = new File("out/" + sceneDao.getName() + ".txt");
-//                    BufferedReader bf = new BufferedReader(new InputStreamReader(new FileInputStream(txtFile), "UTF-8"));
-//                    String txt;
-//                    while ((txt = bf.readLine()) != null) {
-//                        sumtxt.append(txt);
-//                    }
-//                    bf.close();
-
-                    String replace = new String(s).replace(" ", "").replace("\n", "");
+                    logger.info("完成识别 : \n" + orc + "\n共耗时 : " + sum);
+//                    String replace = new String(orc).replace(" ", "").replace("\n", "");
+                    String replace = new String(orc).replace("\n", "");
                     sceneDao.setOriginal(replace);
                     latch.countDown();
                 } catch (Exception e) {

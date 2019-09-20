@@ -24,12 +24,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-@Component
+
 /**
  * @description:
  * @author: zdthm2010@gmail.com
  * @date: 2019-08-15 19:34
  */
+@Component
 public class ListController {
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
     @Autowired

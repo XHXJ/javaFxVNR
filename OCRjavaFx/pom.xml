@@ -10,9 +10,9 @@
     </parent>
     <groupId>com.xhxj</groupId>
     <artifactId>orc</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.7</version>
     <name>orc</name>
-    <description>Demo project for Spring Boot</description>
+    <description>javaFxVNR</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -80,6 +80,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>de.roskenet</groupId>
             <artifactId>springboot-javafx-support</artifactId>
@@ -101,6 +102,12 @@
             <systemPath>${project.basedir}/lib/jviolajones2.0.jar
             </systemPath>
         </dependency>
+        <dependency>
+            <groupId>cn.easyproject</groupId>
+            <artifactId>easyocr</artifactId>
+            <version>3.0.4-RELEASE</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 
@@ -120,11 +127,11 @@
                 </configuration>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src\main\resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <directory>application.properties</directory>-->
+<!--                <filtering>true</filtering>-->
+<!--            </resource>-->
+<!--        </resources>-->
     </build>
 </project>

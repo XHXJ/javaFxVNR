@@ -1,14 +1,12 @@
 package com.xhxj.ocr.tool;
 
-import com.xhxj.ocr.controller.MainController;
+import com.xhxj.ocr.SysConfig;
 import net.sourceforge.tess4j.util.LoggHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class ImagePicture {
@@ -18,17 +16,9 @@ public class ImagePicture {
 
     /**
      * @param bufferedImage   需要去噪的图像
-     * @param destdir 去噪后的图像保存地址
-     * @throws IOException
      */
-    public BufferedImage cleanLinesInImage(BufferedImage bufferedImage) throws IOException {
-//        File destF = new File(destDir);
-//        if (!destF.exists())
-//        {
-//            destF.mkdirs();
-//        }
-//
-//        BufferedImage bufferedImage = ImageIO.read(sfile);
+    public static BufferedImage cleanLinesInImage(BufferedImage bufferedImage)  {
+
         int h = bufferedImage.getHeight();
         int w = bufferedImage.getWidth();
 
@@ -50,15 +40,17 @@ public class ImagePicture {
                 if (b >= 255) {
                     b = 255;
                 }
-                gray[x][y] = (int) Math
-                        .pow((Math.pow(r, 2.2) * 0.2973 + Math.pow(g, 2.2)
-                                * 0.6274 + Math.pow(b, 2.2) * 0.0753), 1 / 2.2);
+                /**
+                 * RGB转灰度图中的第一种方法
+                 */
+                gray[x][y] = (int) Math.pow((Math.pow(r, 2.2) * 0.2973 + Math.pow(g, 2.2) * 0.6274 + Math.pow(b, 2.2) * 0.0753), 1 / 2.2);
             }
         }
 
         // 二值化
-        int threshold = ostu(gray, w, h);
-        BufferedImage binaryBufferedImage = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_BINARY);
+        int threshold = binaryzation(gray, w, h);
+        BufferedImage binaryBufferedImage = new BufferedImage(w, h,
+                BufferedImage.TYPE_BYTE_BINARY);
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 if (gray[x][y] > threshold) {
@@ -70,87 +62,54 @@ public class ImagePicture {
             }
         }
 
-//        //去除干扰线条
-//        for(int y = 1; y < h-1; y++){
-//            for(int x = 1; x < w-1; x++){
-//                boolean flag = false ;
-//                if(isBlack(binaryBufferedImage.getRGB(x, y))){
-//                    //左右均为空时，去掉此点
-//                    if(isWhite(binaryBufferedImage.getRGB(x-1, y)) && isWhite(binaryBufferedImage.getRGB(x+1, y))){
-//                        flag = true;
-//                    }
-//                    //上下均为空时，去掉此点
-//                    if(isWhite(binaryBufferedImage.getRGB(x, y+1)) && isWhite(binaryBufferedImage.getRGB(x, y-1))){
-//                        flag = true;
-//                    }
-//                    //斜上下为空时，去掉此点
-//                    if(isWhite(binaryBufferedImage.getRGB(x-1, y+1)) && isWhite(binaryBufferedImage.getRGB(x+1, y-1))){
-//                        flag = true;
-//                    }
-//                    if(isWhite(binaryBufferedImage.getRGB(x+1, y+1)) && isWhite(binaryBufferedImage.getRGB(x-1, y-1))){
-//                        flag = true;
-//                    }
-//                    if(flag){
-//                        binaryBufferedImage.setRGB(x,y,-1);
-//                    }
-//                }
-//            }
-//        }
-
-
-//        // 矩阵打印
-//        for (int y = 0; y < h; y++)
-//        {
-//            for (int x = 0; x < w; x++)
-//            {
-//                if (isBlack(binaryBufferedImage.getRGB(x, y)))
-//                {
-//                    System.out.print("*");
-//                } else
-//                {
-//                    System.out.print(" ");
-//                }
-//            }
-//            System.out.println();
-//        }
-
-//        ImageIO.write(binaryBufferedImage, "jpg", new File(destDir, sfile
-//                .getName()));
-
-        return binaryBufferedImage;
+      /*  // 输出打印
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                if (isBlack(binaryBufferedImage.getRGB(x, y))) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }*/
+         return binaryBufferedImage;
     }
 
-    private boolean isBlack(int colorInt) {
+    public static boolean isBlack(int colorInt) {
         Color color = new Color(colorInt);
-        if (color.getRed() + color.getGreen() + color.getBlue() <= 300) {
-            return true;
-        }
-        return false;
+        return color.getRed() + color.getGreen() + color.getBlue() <= 300;
     }
 
-    private boolean isWhite(int colorInt) {
+    public static boolean isWhite(int colorInt) {
         Color color = new Color(colorInt);
-        if (color.getRed() + color.getGreen() + color.getBlue() > 300) {
-            return true;
-        }
-        return false;
+        return color.getRed() + color.getGreen() + color.getBlue() > 300;
     }
 
-    private int isBlackOrWhite(int colorInt) {
+    public static int isBlackOrWhite(int colorInt) {
         if (getColorBright(colorInt) < 30 || getColorBright(colorInt) > 730) {
             return 1;
         }
         return 0;
     }
 
-    private int getColorBright(int colorInt) {
+    public static int getColorBright(int colorInt) {
         Color color = new Color(colorInt);
         return color.getRed() + color.getGreen() + color.getBlue();
     }
 
-    private int ostu(int[][] gray, int w, int h) {
+    /**
+     * 对摄像头拍摄的图片，大多数是彩色图像，彩色图像所含信息量巨大，对于图片的内容，我们可以简单的分为前景与背景，为了让计算机更快的，更好的识别文字，
+     * 我们需要先对彩色图进行处理，使图片只前景信息与背景信息，可以简单的定义前景信息为黑色，背景信息为白色，这就是二值化图了。
+     *
+     * @param gray
+     * @param w
+     * @param h
+     * @return
+     */
+    public static int binaryzation(int[][] gray, int w, int h) {
         int[] histData = new int[w * h];
-        // Calculate histogram
+        // 计算直方图
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 int red = 0xFF & gray[x][y];
@@ -158,7 +117,7 @@ public class ImagePicture {
             }
         }
 
-        // Total number of pixels
+        // 统计像素点
         int total = w * h;
 
         float sum = 0;
@@ -173,11 +132,11 @@ public class ImagePicture {
         int threshold = 0;
 
         for (int t = 0; t < 256; t++) {
-            wB += histData[t]; // Weight Background
+            wB += histData[t]; // 加重背景
             if (wB == 0)
                 continue;
 
-            wF = total - wB; // Weight Foreground
+            wF = total - wB; // 加重前景
             if (wF == 0)
                 break;
 
@@ -198,7 +157,6 @@ public class ImagePicture {
 
         return threshold;
     }
-
 
     private BufferedImage getImagePicture(BufferedImage image) {
 //        BufferedImage image = ImageIO.read(new File("C:\\Users\\78222\\Desktop\\测试\\Annotation 2019-08-14 230558.png"));
@@ -226,7 +184,7 @@ public class ImagePicture {
 
             }
         }
-        double SW = MainController.grayLeve;
+        double SW = SysConfig.grayLeve;
         for (int x = 0; x < w; x++) {
             for (int y = 0; y < h; y++) {
                 if (zuobiao[x][y] <= SW) {

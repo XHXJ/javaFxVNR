@@ -10,14 +10,15 @@
 
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xhxj.ocr.controller.MainController" >
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.xhxj.ocr.controller.MainController">
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="设置">
                     <items>
                         <MenuItem mnemonicParsing="false" text="识别选项" fx:id="showOptionMenuItem"/>
-                        <MenuItem mnemonicParsing="false" text="测试" fx:id="showOcrTxtMenu" />
+                        <MenuItem mnemonicParsing="false" text="测试" fx:id="showOcrTxtMenu"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="关于">
@@ -55,7 +56,7 @@
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #CCC;"
               BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" text="选取翻译位置" fx:id="getSceneDaoImgButton" >
+                <Button mnemonicParsing="false" text="选取翻译位置" fx:id="getSceneDaoImgButton">
                     <VBox.margin>
                         <Insets bottom="50.0"/>
                     </VBox.margin>
@@ -65,12 +66,12 @@
                         <Insets bottom="50.0"/>
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" text="显示选择框" fx:id="startShowTextButton">
+                <Button mnemonicParsing="false" text="显示文本框" fx:id="startShowTextButton">
                     <VBox.margin>
                         <Insets bottom="50.0"/>
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" text="关闭选择框" fx:id="offShowTextButton">
+                <Button mnemonicParsing="false" text="关闭文本框" fx:id="offShowTextButton">
                     <VBox.margin>
                         <Insets bottom="50.0"/>
                     </VBox.margin>

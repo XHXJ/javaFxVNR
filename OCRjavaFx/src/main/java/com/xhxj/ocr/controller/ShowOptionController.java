@@ -1,5 +1,6 @@
 package com.xhxj.ocr.controller;
 
+import com.xhxj.ocr.SysConfig;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,15 +18,16 @@ import java.io.IOException;
 import java.net.URL;
 
 @Component
-/**
- * @description:
+/*
+  设置选项
+  @description:
  * @author: zdthm2010@gmail.com
  * @date: 2019-08-15 19:34
  */
 public class ShowOptionController {
     private Stage ocrTxtBox;
-    @FXML
-    private TextField grayLeve;
+//    @FXML
+//    private TextField grayLeve;
     @FXML
     private TextField threadSleep;
     @FXML
@@ -60,27 +62,31 @@ public class ShowOptionController {
 
     @FXML
     private void initialize() {
-        grayLeve.setText(String.valueOf(MainController.grayLeve));
-        threadSleep.setText(String.valueOf(MainController.threadSleep));
-        ocrLanguage.setText(MainController.ocrLanguage);
-        tessdataPath.setText(MainController.tessdataPath);
+//        grayLeve.setText(String.valueOf(SysConfig.grayLeve));
+        threadSleep.setText(String.valueOf(SysConfig.threadSleep));
+        ocrLanguage.setText(SysConfig.ocrLanguage);
+        tessdataPath.setText(SysConfig.tessdataPath);
 
         submit.setOnAction(event -> {
-            String grayLeveText = grayLeve.getText();
-            String threadSleepText = threadSleep.getText();
-            MainController.grayLeve = Double.parseDouble(grayLeveText);
-            MainController.threadSleep = Long.parseLong(threadSleepText);
-            grayLeve.setText(String.valueOf(MainController.grayLeve));
-            threadSleep.setText(String.valueOf(MainController.threadSleep));
+//            String grayLeveText = grayLeve.getText();
+//            SysConfig.grayLeve = Double.parseDouble(grayLeveText);
+//            grayLeve.setText(String.valueOf(SysConfig.grayLeve));
 
-            MainController.ocrLanguage = ocrLanguage.getText();
-            ocrLanguage.setText(MainController.ocrLanguage);
-            MainController.tessdataPath = tessdataPath.getText();
-            tessdataPath.setText(MainController.tessdataPath);
+            String threadSleepText = threadSleep.getText();
+            SysConfig.threadSleep = Long.parseLong(threadSleepText);
+            threadSleep.setText(String.valueOf(SysConfig.threadSleep));
+
+            SysConfig.ocrLanguage = ocrLanguage.getText();
+            ocrLanguage.setText(SysConfig.ocrLanguage);
+            SysConfig.tessdataPath = tessdataPath.getText();
+            tessdataPath.setText(SysConfig.tessdataPath);
+
+            //写出配置文件
+            new SysConfig().outSysConfig();
         });
-        color.setSelected(MainController.colorBoolean);
+        color.setSelected(SysConfig.colorBoolean);
         color.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            MainController.colorBoolean = newValue;
+            SysConfig.colorBoolean = newValue;
             logger.info("二值化处理 :"+newValue);
         });
     }

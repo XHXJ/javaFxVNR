@@ -136,13 +136,8 @@ public class ShowTxtController {
                     showTxtStage.close();
                 }
             });
-
-
-
         }
-        //每段时间刷新文本
     }
-
 
     /**
      * 关闭所有文本框

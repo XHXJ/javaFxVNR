@@ -9,8 +9,8 @@
             fx:controller="com.xhxj.ocr.controller.ShowOptionController"
             prefHeight="200.0" prefWidth="200.0">
     <GridPane alignment="CENTER" >
-        <Label text="颜色阀值" GridPane.rowIndex="0" GridPane.columnIndex="0" ></Label>
-        <TextField text="" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="50" fx:id="grayLeve"></TextField>
+<!--        <Label text="颜色阀值" GridPane.rowIndex="0" GridPane.columnIndex="0" ></Label>-->
+<!--        <TextField text="" GridPane.rowIndex="0" GridPane.columnIndex="1" prefWidth="50" fx:id="grayLeve"></TextField>-->
         <Label text="识别间隔(ms)" GridPane.rowIndex="1" GridPane.columnIndex="0"></Label>
         <TextField text="" GridPane.rowIndex="1" GridPane.columnIndex="1" prefWidth="50"
                    fx:id="threadSleep"></TextField>
@@ -21,6 +21,6 @@
         <TextField text="" GridPane.rowIndex="4" GridPane.columnIndex="1" fx:id="tessdataPath" maxWidth="-Infinity"></TextField>
         <CheckBox text="二值化识别" GridPane.rowIndex="5" GridPane.columnIndex="0" fx:id="color"></CheckBox>
         <Button text="确认" GridPane.rowIndex="6" GridPane.columnIndex="1" fx:id="submit"></Button>
-        <Label text="二值化识别开启后颜色阀值有效" GridPane.rowIndex="7" GridPane.columnIndex="0"></Label>
+<!--        <Label text="二值化识别开启后颜色阀值有效" GridPane.rowIndex="7" GridPane.columnIndex="0"></Label>-->
     </GridPane>
 </AnchorPane>
