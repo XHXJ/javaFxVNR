@@ -158,7 +158,7 @@ public class ImagePicture {
         return threshold;
     }
 
-    private BufferedImage getImagePicture(BufferedImage image) {
+    public BufferedImage getImagePicture(BufferedImage image) {
 //        BufferedImage image = ImageIO.read(new File("C:\\Users\\78222\\Desktop\\测试\\Annotation 2019-08-14 230558.png"));
         int w = image.getWidth();
         int h = image.getHeight();

@@ -2,12 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17551369-9d68-4fc6-ac3d-6d7e08061942" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/javaFxVNR_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OCRjavaFx/lib/jviolajones2.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OCRjavaFx/lib/marvin_1.5.5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/imageUtil/BinaryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/imageUtil/CutImg.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/imageUtil/ImageCutUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OCRjavaFx/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/SysConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/SysConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/TaskExecutePool.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/TaskExecutePool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ListController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/TimingShowServiceTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/TimingShowServiceTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ShowOptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ShowOptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/dao/SceneDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/dao/SceneDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/ImagePicture.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/ImagePicture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/MainInterface.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/MainInterface.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/OcrTxt.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/OcrTxt.fxml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -169,14 +183,22 @@
     <option name="importingSettings">
       <MavenImportingSettings>
         <option name="importAutomatically" value="true" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
       </MavenImportingSettings>
     </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
   </component>
   <component name="ProjectId" id="1PHW5CA0xgVjIab6lUt3m9eDIkN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="Downloaded.Files.Path.Enabled" value="false" />
     <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
+    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="javafxvnr" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
@@ -191,8 +213,8 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8 (2)" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/OCRjavaFx/src/test/java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/OCRjavaFx/src/main/java/com" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/OCRjavaFx" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -206,7 +228,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.runner" />
   </component>
   <component name="RecentsManager">
     <key name="OPEN_URL_DIALOG">
@@ -216,24 +238,24 @@
       <recent name="com.xhxj.ocr" />
       <recent name="" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources\lib" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\java\com\xhxj\ocr\tool" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\test\java\com\xhxj\ocr" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\marvin\lib" />
       <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\lib" />
-      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources" />
-      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\webapp\WEB-INF\lib" />
-      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources\tessdata" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.xhxj.ocr" />
       <recent name="com.xhxj.ocr.controller" />
       <recent name="tess4j" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx" />
-      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\marvin\lib" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\test\java\com\xhxj\ocr" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources\view" />
+      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources\lib" />
       <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\lib" />
       <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src\main\resources" />
-      <recent name="C:\Users\78222\IdeaProjects\javaFxVNR\OCRjavaFx\src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -253,13 +275,13 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.OrcApplication">
-    <configuration name="TextRegions" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="textRegions.TextRegions" />
-      <module name="orc" />
+  <component name="RunManager" selected="Application.Test">
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.xhxj.ocr.Test" />
+      <module name="javaFxVNR" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="textRegions.*" />
+          <option name="PATTERN" value="com.xhxj.ocr.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -268,54 +290,54 @@
       </method>
     </configuration>
     <configuration name="TextRegions" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="orc" />
+      <module name="OCRjavaFx" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="textRegions.*" />
+          <option name="PATTERN" value="com.xhxj.ocr.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="textRegions" />
-      <option name="MAIN_CLASS_NAME" value="textRegions.TextRegions" />
+      <option name="PACKAGE_NAME" value="com.xhxj.ocr" />
+      <option name="MAIN_CLASS_NAME" value="com.xhxj.ocr.TextRegions" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TextRegions.test01" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="orc" />
+    <configuration name="TextRegions.TextRegions" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OCRjavaFx" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="textRegions.*" />
+          <option name="PATTERN" value="com.xhxj.ocr.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="textRegions" />
-      <option name="MAIN_CLASS_NAME" value="textRegions.TextRegions" />
+      <option name="PACKAGE_NAME" value="com.xhxj.ocr" />
+      <option name="MAIN_CLASS_NAME" value="com.xhxj.ocr.TextRegions" />
+      <option name="METHOD_NAME" value="TextRegions" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TextRegions.test01 (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OCRjavaFx" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.xhxj.ocr.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.xhxj.ocr" />
+      <option name="MAIN_CLASS_NAME" value="com.xhxj.ocr.TextRegions" />
       <option name="METHOD_NAME" value="test01" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TextRegions.test02" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="orc" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="textRegions.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="textRegions" />
-      <option name="MAIN_CLASS_NAME" value="textRegions.TextRegions" />
-      <option name="METHOD_NAME" value="test02" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="test4.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="orc" />
+    <configuration name="test4.test01" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OCRjavaFx" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.xhxj.ocr.*" />
@@ -324,7 +346,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.xhxj.ocr" />
       <option name="MAIN_CLASS_NAME" value="com.xhxj.ocr.test4" />
-      <option name="METHOD_NAME" value="test" />
+      <option name="METHOD_NAME" value="test01" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -377,8 +399,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="OrcApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="orc" />
+    <configuration name="OrcApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="javaFxVNR" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.xhxj.ocr.OrcApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2">
@@ -386,20 +408,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.TextRegions" />
-      <item itemvalue="JUnit.TextRegions.test01" />
+      <item itemvalue="JUnit.TextRegions.test01 (1)" />
+      <item itemvalue="JUnit.TextRegions.TextRegions" />
       <item itemvalue="JUnit.TextRegions" />
-      <item itemvalue="JUnit.TextRegions.test02" />
-      <item itemvalue="JUnit.test4.test" />
+      <item itemvalue="JUnit.test4.test01" />
       <item itemvalue="Spring Boot.OrcApplication" />
+      <item itemvalue="Application.Test" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.test4.test" />
-        <item itemvalue="JUnit.TextRegions.test02" />
-        <item itemvalue="JUnit.TextRegions.test01" />
+        <item itemvalue="Application.Test" />
+        <item itemvalue="JUnit.test4.test01" />
+        <item itemvalue="JUnit.TextRegions.TextRegions" />
         <item itemvalue="JUnit.TextRegions" />
-        <item itemvalue="Application.TextRegions" />
+        <item itemvalue="JUnit.TextRegions.test01 (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -408,12 +430,7 @@
       <serviceView>
         <option name="contentProportion" value="0.04339092" />
         <treeState>
-          <expand>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@68566c35" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-            </path>
-          </expand>
+          <expand />
           <select />
         </treeState>
       </serviceView>
@@ -484,7 +501,12 @@
       <workItem from="1568484409819" duration="654000" />
       <workItem from="1568776500151" duration="1152000" />
       <workItem from="1568882901640" duration="599000" />
-      <workItem from="1568987490770" duration="22948000" />
+      <workItem from="1568987490770" duration="30209000" />
+      <workItem from="1569018264595" duration="601000" />
+      <workItem from="1569076764185" duration="28626000" />
+      <workItem from="1569147772533" duration="8950000" />
+      <workItem from="1569165972311" duration="17868000" />
+      <workItem from="1569188749753" duration="340000" />
     </task>
     <task id="LOCAL-00001" summary="从头理了一遍多线程&#10;重新添加了tess4j,识别效率比之前快500ms左右&#10;添加了主窗口显示目前识别图像&#10;取消了输出成文件再识别,减少io&#10;添加了选项识别语言选择,tessdata路径指定">
       <created>1565820515585</created>
@@ -542,7 +564,14 @@
       <option name="project" value="LOCAL" />
       <updated>1569005991387</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="修复了英文或其他语言文本框无法显示,优化了显示代码.">
+      <created>1569010581601</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1569010581601</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -610,15 +639,31 @@
     <MESSAGE value="更换了主窗口界面&#10;当截图时,显示的文本窗口会自动最小化.以及自动恢复" />
     <MESSAGE value="取消了文本框自动缩小,优化了二值化逻辑" />
     <MESSAGE value="取消了二值化阀值功能,增加了配置文件功能,修复了英文等文字文本框无文字bug.删除了不必要的代码" />
-    <option name="LAST_COMMIT_MESSAGE" value="取消了二值化阀值功能,增加了配置文件功能,修复了英文等文字文本框无文字bug.删除了不必要的代码" />
+    <MESSAGE value="修复了英文或其他语言文本框无法显示,优化了显示代码." />
+    <option name="LAST_COMMIT_MESSAGE" value="修复了英文或其他语言文本框无法显示,优化了显示代码." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
-          <line>507</line>
-          <option name="timeStamp" value="21" />
+          <line>629</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
+          <line>773</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
+          <line>751</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
+          <line>680</line>
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

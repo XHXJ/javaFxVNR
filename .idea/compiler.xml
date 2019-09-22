@@ -6,16 +6,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="orc" />
+        <module name="OCRjavaFx" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="orc" target="1.8" />
+      <module name="javaFxVNR" target="1.8" />
+      <module name="OCRjavaFx" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="orc" options="-parameters" />
+      <module name="OCRjavaFx" options="-parameters" />
+      <module name="javaFxVNR" options="-parameters" />
     </option>
   </component>
 </project>

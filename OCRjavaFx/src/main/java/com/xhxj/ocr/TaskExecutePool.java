@@ -24,11 +24,11 @@ public class TaskExecutePool {
     public Executor myTaskAsyncPool() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         //核心线程池大小
-        executor.setCorePoolSize(40);
+        executor.setCorePoolSize(20);
         //最大线程数
-        executor.setMaxPoolSize(50);
+        executor.setMaxPoolSize(20);
         //队列容量
-        executor.setQueueCapacity(20);
+        executor.setQueueCapacity(10);
         //活跃时间
         executor.setKeepAliveSeconds(3000);
         //线程名字前缀

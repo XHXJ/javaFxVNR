@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/javaFxVNR.iml" filepath="$PROJECT_DIR$/.idea/javaFxVNR.iml" />
-      <module fileurl="file://$PROJECT_DIR$/OCRjavaFx/orc.iml" filepath="$PROJECT_DIR$/OCRjavaFx/orc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OCRjavaFx/javaFxVNR.iml" filepath="$PROJECT_DIR$/OCRjavaFx/javaFxVNR.iml" />
     </modules>
   </component>
 </project>

@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 
 @Component
-/*
+/**
   设置选项
   @description:
  * @author: zdthm2010@gmail.com
@@ -26,8 +26,8 @@ import java.net.URL;
  */
 public class ShowOptionController {
     private Stage ocrTxtBox;
-//    @FXML
-//    private TextField grayLeve;
+    @FXML
+    private TextField grayLeve;
     @FXML
     private TextField threadSleep;
     @FXML
@@ -62,15 +62,15 @@ public class ShowOptionController {
 
     @FXML
     private void initialize() {
-//        grayLeve.setText(String.valueOf(SysConfig.grayLeve));
+        grayLeve.setText(String.valueOf(SysConfig.grayLeve));
         threadSleep.setText(String.valueOf(SysConfig.threadSleep));
         ocrLanguage.setText(SysConfig.ocrLanguage);
         tessdataPath.setText(SysConfig.tessdataPath);
 
         submit.setOnAction(event -> {
-//            String grayLeveText = grayLeve.getText();
-//            SysConfig.grayLeve = Double.parseDouble(grayLeveText);
-//            grayLeve.setText(String.valueOf(SysConfig.grayLeve));
+            String grayLeveText = grayLeve.getText();
+            SysConfig.grayLeve = Double.parseDouble(grayLeveText);
+            grayLeve.setText(String.valueOf(SysConfig.grayLeve));
 
             String threadSleepText = threadSleep.getText();
             SysConfig.threadSleep = Long.parseLong(threadSleepText);

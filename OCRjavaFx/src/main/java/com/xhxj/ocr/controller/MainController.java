@@ -9,6 +9,7 @@ import com.xhxj.ocr.dao.FanyiBaiduTxtDao;
 import com.xhxj.ocr.dao.SceneDao;
 import com.xhxj.ocr.tool.ImagePicture;
 import com.xhxj.ocr.tool.baidu.TransApi;
+import com.xhxj.ocr.tool.imageUtil.BinaryTest;
 import de.felixroske.jfxsupport.GUIState;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -28,6 +29,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import marvin.MarvinDefinitions;
+import marvin.image.MarvinImage;
+import marvin.image.MarvinSegment;
+import marvin.io.MarvinImageIO;
+import marvin.util.MarvinPluginLoader;
 import net.sourceforge.tess4j.*;
 import net.sourceforge.tess4j.util.ImageHelper;
 import net.sourceforge.tess4j.util.LoggHelper;
@@ -38,6 +44,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -46,9 +53,9 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.xhxj.ocr.SysConfig.*;
+import static marvin.MarvinPluginCollection.findTextRegions;
 
 /**
  * @description:
@@ -67,8 +74,6 @@ public class MainController {
     ShowOptionController showOptionController;
     @Autowired
     ShowTxtController showTxtController;
-//    @Autowired
-//    SysConfig sysConfig;
 
     BufferedImage bufferedImage;
 
@@ -148,26 +153,37 @@ public class MainController {
     public void initialize() {
         //读取配置文件
         new SysConfig().readSysConfig();
-
         primary = GUIState.getStage();
         primary.setTitle("下划线君的OCR翻译机 v" + version);
         Executor executor = taskExecutePool.myTaskAsyncPool();
         //开始识别
-        mainStart.setOnAction(event -> executor.execute(() -> {
-            if (sceneDaos.size() > 0) {
-                logger.info("开始整个识别流程!识别间隔 :" + threadSleep);
-                startInt = true;
-                while (startInt) {
-                    timingGetScreenImg(null);
-                    try {
-                        Thread.sleep(threadSleep);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        mainStart.setOnAction(event -> {
+            //判断是否有线程在运行
+            if (flag) {
+                executor.execute(() -> {
+                    //线程开始运行flag为false避免新的识别线程加入
+                    flag = false;
+                    if (sceneDaos.size() > 0) {
+                        logger.info("开始整个识别流程!识别间隔 :" + threadSleep);
+                        startInt = true;
+                        while (startInt) {
+                            try {
+                                timingGetScreenImg(null);
+                                Thread.sleep(threadSleep);
+                            } catch (Exception e) {
+                                logger.error("识别线程出错 " + e.getMessage());
+                            }
+                        }
                     }
-                }
+                    logger.info("识别已停止!");
+                    //识别已结束开放flag
+                    flag = true;
+                });
+            } else {
+                logger.info("已有识别线程在运行,请勿重复开始");
             }
-            logger.info("识别已停止!");
-        }));
+
+        });
         //停止
         mainStop.setOnAction(event -> ocrStop());
         //打开选项
@@ -182,13 +198,15 @@ public class MainController {
         startShowTextButton.setOnAction(event -> showTxtController.startShowText());
         //关闭文本框
         offShowTextButton.setOnAction(event -> showTxtController.offShowText());
+
+
         executor.execute(() -> {
             while (true) {
                 try {
                     //每一秒去切换主界面的图片
                     Thread.sleep(1000);
-                    if (sceneDaos.size() > 0 && sceneDaos.get(0).getImage() != null) {
-                        WritableImage writableImage = SwingFXUtils.toFXImage(sceneDaos.get(0).getImage(), null);
+                    if (sceneDaos.size() > 0 && sceneDaos.get(0).getOutImage() != null) {
+                        WritableImage writableImage = SwingFXUtils.toFXImage(sceneDaos.get(0).getOutImage(), null);
                         iv2.setImage(writableImage);
                     }
                 } catch (InterruptedException e) {
@@ -340,7 +358,6 @@ public class MainController {
      * @param
      */
     public void getScreenImg() {
-        Executor executor = taskExecutePool.myTaskAsyncPool();
         //文本窗口最小化
 
 //        Task<Integer> task = new Task<Integer>() {
@@ -488,7 +505,7 @@ public class MainController {
             //把sceneDaos中的对象全部拿去截图
             getScreenImg();
             //把sceneDaos中的对象全部识别
-            orcIdentify();
+            orcStart();
 
             StringBuilder txt1 = new StringBuilder();
 
@@ -576,48 +593,139 @@ public class MainController {
     /**
      * ocr识别方法
      */
-    private void orcIdentify() {
+    private void orcStart() {
         final CountDownLatch latch = new CountDownLatch(sceneDaos.size());
         Executor executor = taskExecutePool.myTaskAsyncPool();
         //判断是否执行了之前的截图方法,并且截图文件保存了
         sceneDaos.forEach(sceneDao -> {
             //开启多线程
             executor.execute(() -> {
+                //选择区域保存的截图
                 BufferedImage image = sceneDao.getImage();
-                logger.info("OCR识别开始");
-                Date stardata = new Date();
+
+                //所有识别后的文字
+                String ocr;
+                //清空所有之前识别的outImageAll
+                sceneDao.getOutImageAll().clear();
+
                 try {
-                    if (SysConfig.colorBoolean) {
-                        logger.info("启用二值化输出");
-                        //把图像二值后输出
-                        ImagePicture imagePicture = new ImagePicture();
-//                        BufferedImage image = sceneDao.getImage();
-                        image = ImageHelper.getScaledInstance(image, (int) (image.getWidth() * 1.5), (int) (image.getHeight() * 1.5));
-                        image = imagePicture.cleanLinesInImage(image);
-                        sceneDao.setImage(image);
-                    }
-                    StringBuilder orc = new StringBuilder();
-                    ITesseract instance = new Tesseract();
-                    instance.setDatapath(SysConfig.tessdataPath);
-                    instance.setLanguage(SysConfig.ocrLanguage);
-//                    instance.setPageSegMode(ITessAPI.TessPageSegMode.PSM_AUTO_OSD);
-                    List<Word> words = instance.getWords(image, TessAPI.TessPageIteratorLevel.RIL_PARA);
-                    words.forEach(word -> {
-                        if (word.getConfidence() > 70) {
-                            orc.append(word.getText());
+                    //识别的时候先去识别文本框,如果有文本框就分别识别文本框
+                    //开启文本框识别
+                    Map<Integer, BufferedImage> allBufferedImage = new HashMap<>();
+                    if (sceneDao.isOcrModelText()) {
+                        //设置marvin路径
+
+                        /**
+                         *
+                         *TODO 打包成jar包后无法加载marvin,报错java.lang.NoClassDefFoundError: marvin/MarvinDefinitions
+                         * 所需文件已打包为项目根目录下marvin文件夹
+                         * 附上国外论坛 :https://groups.google.com/forum/#!forum/marvin-project
+                         * 官网 : http://marvinproject.sourceforge.net/
+                         * 问题描述 :marvinproject是一个外置插件 没有maven整合,在我尝试整合到项目中的时候出现了问题,将项目打包成jar包时无法运行.
+                         *
+                         */
+
+                        MarvinDefinitions.setImagePluginPath(new File("H:/test/marvin/plugins/image").getAbsolutePath() + "/");
+                        MarvinImage marvinImage = new MarvinImage(image);
+                        //识别到的文本框
+                        List<MarvinSegment> segments = findTextRegions(marvinImage, sceneDao.getMaxWhiteSpace(), sceneDao.getMaxFontLineWidth(), sceneDao.getMinTextWidth(), sceneDao.getGrayScaleThreshold());
+//                        按照顺序给文本框截图并put到map
+                        for (int i = 0; i < segments.size(); i++) {
+                            MarvinSegment s = segments.get(i);
+                            if (s.height >= 5) {
+                                s.y1 -= 5;
+                                s.y2 += 5;
+                                if (s.y1 >= 0 && (s.x2 - s.x1) > 0 && (s.y2 - s.y1) > 0) {
+                                    try {
+                                        marvinImage.drawRect(s.x1 - 2, s.y1 - 2, s.x2 - s.x1, s.y2 - s.y1, Color.red);
+//                                        marvinImage.drawRect(s.x1 - 2, s.y1 - 2, (s.x2 - s.x1) - 2, (s.y2 - s.y1) - 2, Color.red);
+                                        //分为大小文本截图
+                                        BufferedImage subimage = image.getSubimage(s.x1 - 2, s.y1 - 2, s.x2 - s.x1, s.y2 - s.y1);
+                                        allBufferedImage.put(i, subimage);
+                                    } catch (Exception e) {
+                                        //这是一个因为坐标没有正确获取报的错,可能是位置被减到了负数...如果对准确性有要求可以处理一下这个bug
+                                        //需要看用户设置的参数
+                                        logger.error("orcStart() 标记文本框时报错 :" + e.getMessage());
+                                    }
+                                }
+                            }
                         }
-                    });
-                    long sum = new Date().getTime() - stardata.getTime();
-                    logger.info("完成识别 : \n" + orc + "\n共耗时 : " + sum);
-//                    String replace = new String(orc).replace(" ", "").replace("\n", "");
-                    if (orc.length() > 0) {
-                        String replace = new String(orc).replace("\n", "");
-                        sceneDao.setOriginal(replace);
+                        //保存处理后的图像
+                        BufferedImage newImageInstance = marvinImage.getBufferedImageNoAlpha();
+                        sceneDao.setOutImage(newImageInstance);
+
+                        //每一个文本框单独识别
+                        //所有识别后的文本map
+                        Map<Integer, String> allTxtMap = new TreeMap<>();
+                        //多线程翻译每一个识别后的文本框
+                        final CountDownLatch latch2 = new CountDownLatch(allBufferedImage.size());
+                        allBufferedImage.forEach((k, y) -> {
+                            executor.execute(() -> {
+                                allTxtMap.put(k, ocr(y, sceneDao));
+                                latch2.countDown();
+                            });
+                        });
+                        latch2.await();
+                        //按顺序合并翻译后的文本框
+                        StringBuilder stringBuilder = new StringBuilder();
+                        allTxtMap.forEach((k, y) -> stringBuilder.append(y));
+                        ocr = new String(stringBuilder);
+                        logger.info("文本框识别 :" + allTxtMap.toString());
+
+
                     } else {
+                        //正常识别流程开始
+                        ocr = ocr(image, sceneDao);
+
+                    }
+                    //将识别完成后的文字赋值
+                    if (StringUtils.isNotEmpty(ocr)) {
+                        sceneDao.setOriginal(ocr);
+                    } else {
+                        //没有识别出任何文字
                         sceneDao.setOriginal("NULL");
                     }
 
+                    //输出到文件测试
+                    if (sceneDao.isOutputFile()) {
+                        File file = new File("out/" + sceneDao.getName() + "/separated/");
+                        if (!file.exists()) {
+                            file.mkdirs();
+                        }
+                        File file2 = new File("out/" + sceneDao.getName() + "/binarization/");
+                        if (!file2.exists()) {
+                            file2.mkdirs();
+                        }
+                        File file3 = new File("out/" + sceneDao.getName() + "/image/");
+                        if (!file3.exists()) {
+                            file3.mkdirs();
+                        }
+                        File file4 = new File("out/" + sceneDao.getName() + "/outImage/");
+                        if (!file4.exists()) {
+                            file4.mkdirs();
+                        }
+                        //输出分隔后的图片
+                        allBufferedImage.forEach((k, y) -> {
+                            try {
+                                ImageIO.write(y, "png", new File(file.getAbsolutePath() + "/" + k + ".png"));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        //输出二值化后的图片
+                        for (int i = 0; i < sceneDao.getOutImageAll().size(); i++) {
+                            BufferedImage bufferedImage = sceneDao.getOutImageAll().get(i);
+                            ImageIO.write(bufferedImage, "png", new File(file2.getAbsolutePath() + "/" + i + ".png"));
+                        }
+                        //输出原图
+                        ImageIO.write(sceneDao.getImage(), "png", new File(file3.getAbsolutePath() + "/" + sceneDao.getName() + ".png"));
+                        //输出处理后的图
+                        ImageIO.write(sceneDao.getOutImage(), "png", new File(file4.getAbsolutePath() + "/" + sceneDao.getName() + ".png"));
+                    }
+
+
                     latch.countDown();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -630,6 +738,53 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 文字识别
+     *
+     * @param image    需要识别的图片
+     * @param sceneDao 设置识别后的sceneDao对象
+     */
+    public String ocr(BufferedImage image, SceneDao sceneDao) {
+        //正常识别流程
+//        logger.info("OCR识别开始");
+        Date stardata = new Date();
+        if (sceneDao.isColorBoolean()) {
+//            logger.info("启用二值化输出");
+            //把图像二值后输出
+            try {
+                image = BinaryTest.getImagePicture(image, sceneDao.getGrayLeve());
+            } catch (Exception e) {
+                logger.error("图像二值化时报错 :" + e.toString());
+            }
+            //将二值化后的图像保存
+            sceneDao.getOutImageAll().add(image);
+        }
+        ITesseract instance = new Tesseract();
+        instance.setDatapath(SysConfig.tessdataPath);
+        instance.setLanguage(SysConfig.ocrLanguage);
+//                    instance.setPageSegMode(ITessAPI.TessPageSegMode.PSM_AUTO_OSD);
+        //识别后的文字
+        StringBuilder ocrString = new StringBuilder();
+        List<Word> words = instance.getWords(image, TessAPI.TessPageIteratorLevel.RIL_PARA);
+        words.forEach(word -> {
+            if (word.getConfidence() > 70) {
+                String text = word.getText();
+                //开启去除空格
+                if (sceneDao.isRuleOutSpace()) {
+                    text = text.replace(" ", "");
+                }
+                ocrString.append(text);
+            }
+        });
+//                    String replace = new String(orc).replace(" ", "").replace("\n", "");
+
+        long sum = new Date().getTime() - stardata.getTime();
+        logger.info("完成识别 : \n" + ocrString + "\n共耗时 : " + sum);
+
+        return new String(ocrString).replace("\n", "");
+    }
+
 
     /**
      * 判断是否为纯色

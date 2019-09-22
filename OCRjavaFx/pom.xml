@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.xhxj</groupId>
-    <artifactId>orc</artifactId>
-    <version>0.0.7</version>
+    <artifactId>javaFxVNR</artifactId>
+    <version>0.0.8</version>
     <name>orc</name>
     <description>javaFxVNR</description>
 
@@ -73,12 +73,12 @@
             <groupId>net.sourceforge.tess4j</groupId>
             <artifactId>tess4j</artifactId>
             <version>4.1.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.sun.jna</groupId>
-                    <artifactId>jna</artifactId>
-                </exclusion>
-            </exclusions>
+            <!--            <exclusions>-->
+            <!--                <exclusion>-->
+            <!--                    <groupId>com.sun.jna</groupId>-->
+            <!--                    <artifactId>jna</artifactId>-->
+            <!--                </exclusion>-->
+            <!--            </exclusions>-->
         </dependency>
 
         <dependency>
@@ -91,7 +91,7 @@
             <artifactId>marvin</artifactId>
             <version>1.5.5</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/marvin/framework/marvin_1.5.5.jar
+            <systemPath>${project.basedir}/lib/marvin_1.5.5.jar
             </systemPath>
         </dependency>
         <dependency>
@@ -131,6 +131,12 @@
             <resource>
                 <directory>src\main\resources</directory>
                 <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
             </resource>
         </resources>
     </build>

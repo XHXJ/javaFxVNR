@@ -1,19 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.ListView?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<AnchorPane xmlns:fx="http://javafx.com/javafx" fx:controller="com.xhxj.ocr.controller.ListController"
-            minWidth="500" minHeight="400">
-    <GridPane alignment="CENTER">
-        <Label text="翻译区域管理" GridPane.rowIndex="0" GridPane.columnIndex="0"></Label>
-        <ListView fx:id="listView" GridPane.rowIndex="1" GridPane.columnIndex="0" minWidth="430"
-                  minHeight="300"></ListView>
-<!--        <Button text="新增" fx:id="increased" GridPane.rowIndex="2" GridPane.columnIndex="0"></Button>-->
-        <Button text="删除" fx:id="delete" GridPane.rowIndex="1" GridPane.columnIndex="1"></Button>
-    </GridPane>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xhxj.ocr.controller.ListController">
+   <left>
+      <VBox style="-fx-background-color: #E6E6E6;" BorderPane.alignment="TOP_LEFT">
+         <children>
+            <Label text="翻译区域管理">
+               <padding>
+                  <Insets left="15.0" top="15.0" />
+               </padding>
+            </Label>
+            <ListView fx:id="listView" prefWidth="90.0" VBox.vgrow="ALWAYS">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </VBox.margin>
+            </ListView>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox>
+         <children>
+            <GridPane style="-fx-background-color: #E6E6E6;" VBox.vgrow="ALWAYS">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="240.0" minHeight="0.0" prefHeight="239.0" vgrow="ALWAYS" />
+              </rowConstraints>
+               <children>
+                  <Label text="原图 :">
+                     <GridPane.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="处理后 :" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <ImageView fx:id="ImageVi" fitHeight="250.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+                  <ImageView fx:id="outImageVi" fitHeight="250.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+               </children>
+            </GridPane>
+            <HBox prefHeight="300.0">
+               <children>
+                  <VBox prefHeight="300.0" prefWidth="300.0">
+                     <children>
+                        <Label text="存储的原文">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <TextArea fx:id="originalText" wrapText="true" />
+                        <Label text="储存的译文">
+                           <padding>
+                              <Insets left="5.0" />
+                           </padding>
+                        </Label>
+                        <TextArea fx:id="translationText" prefWidth="210.0" wrapText="true">
+                           <padding>
+                              <Insets bottom="5.0" />
+                           </padding>
+                        </TextArea>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </VBox>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <GridPane alignment="CENTER" hgap="2.0" layoutX="14.0" layoutY="6.0" style="-fx-border-color: #9999;" AnchorPane.topAnchor="6.0">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                              <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="31.0" minHeight="18.0" prefHeight="25.0" />
+                            <RowConstraints maxHeight="30.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="30.0" minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="33.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="maxWhiteSpace:" GridPane.rowIndex="1" />
+                              <Label text="maxFontLineWidth:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label text="minTextWidth:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Label text="grayScaleThreshold:" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <TextField fx:id="maxWhiteSpaceText" GridPane.rowIndex="2" />
+                              <TextField fx:id="grayScaleThresholdText" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                              <TextField fx:id="minTextWidthText" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <TextField fx:id="maxFontLineWidthText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="文本框识别参数 :" />
+                              <CheckBox fx:id="ocrmodelTextBox" mnemonicParsing="false" text="识别文本框" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets left="5.0" right="5.0" />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="5.0" right="5.0" />
+                           </padding>
+                        </GridPane>
+                        <HBox alignment="CENTER" layoutX="436.0" layoutY="251.0" prefHeight="35.0" prefWidth="200.0" spacing="10.0">
+                           <children>
+                              <Button fx:id="testButton" mnemonicParsing="false" text="测试" />
+                              <Button fx:id="confirm" mnemonicParsing="false" text="确认" />
+                              <Button fx:id="delete" mnemonicParsing="false" text="删除" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </HBox>
+                        <Label layoutX="14.0" layoutY="261.0" prefHeight="15.0" prefWidth="299.0" text="处理后的完整图片已保存至剪切板...." textFill="#ff0040" />
+                        <HBox layoutX="14.0" layoutY="140.0" prefHeight="37.0" prefWidth="637.0" spacing="10.0">
+                           <children>
+                              <Label text="阀值:" />
+                              <Slider fx:id="grayLeveSlider" max="255.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" value="180.0" />
+                              <CheckBox fx:id="colorBooleanBox" mnemonicParsing="false" text="启用二值化" />
+                              <CheckBox fx:id="ruleOutSpaceBox" mnemonicParsing="false" text="排除空格" />
+                              <CheckBox fx:id="outputFileBox" mnemonicParsing="false" text="输出到文件夹" />
+                           </children>
+                        </HBox>
+                        <Pane layoutX="45.0" layoutY="197.0" prefHeight="50.0" prefWidth="610.0" style="-fx-background-color: #9999;">
+                           <children>
+                              <ImageView fx:id="outImageAllView" fitHeight="50.0" fitWidth="610.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </Pane>
+                        <Label layoutX="14.0" layoutY="182.0" text="预览:" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

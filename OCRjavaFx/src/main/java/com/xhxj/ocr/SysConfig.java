@@ -9,10 +9,9 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 
 /**
- * @description:
+ * @description:结合fastjson使用
  * @author: zdthm2010@gmail.com
  * @date: 2019-09-20 23:38
- * 结合fastjson使用
  */
 public class SysConfig {
 
@@ -85,6 +84,7 @@ public class SysConfig {
 
 
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
+
     /**
      * 写出配置文件
      */
@@ -103,6 +103,7 @@ public class SysConfig {
             e.printStackTrace();
         }
     }
+
     /**
      * 读取配置文件
      */
@@ -119,7 +120,7 @@ public class SysConfig {
                     stringBuilder.append(line);
                 }
                 reader.close();
-                logger.info("读取配置文件 :"+stringBuilder);
+                logger.info("读取配置文件 :" + stringBuilder);
                 //fastjson本身获取值使用的反射set方法,所以这里不用手动去赋值
                 JSONArray.parseObject(stringBuilder.toString(), SysConfig.class);
             }
