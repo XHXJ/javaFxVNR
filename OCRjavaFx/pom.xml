@@ -12,7 +12,17 @@
     <artifactId>javaFxVNR</artifactId>
     <version>0.0.8</version>
     <name>orc</name>
+    <packaging>jar</packaging>
     <description>javaFxVNR</description>
+
+    <repositories>
+        <repository>
+            <id>in-project</id>
+            <name>In Project Repo</name>
+            <url>file://${project.basedir}/lib</url>
+        </repository>
+    </repositories>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,6 +31,7 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -86,27 +97,37 @@
             <artifactId>springboot-javafx-support</artifactId>
             <version>2.1.6</version>
         </dependency>
-        <dependency>
-            <groupId>marvin.MarvinDefinitions</groupId>
-            <artifactId>marvin</artifactId>
-            <version>1.5.5</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/marvin_1.5.5.jar
-            </systemPath>
-        </dependency>
-        <dependency>
-            <groupId>marvin.MarvinDefinitions</groupId>
-            <artifactId>jviolajones</artifactId>
-            <version>2.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/jviolajones2.0.jar
-            </systemPath>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>marvin.MarvinDefinitions</groupId>-->
+<!--            <artifactId>marvin</artifactId>-->
+<!--            <version>1.5.5</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>${project.basedir}/lib/marvin_1.5.5.jar-->
+<!--            </systemPath>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>marvin.MarvinDefinitions</groupId>-->
+<!--            <artifactId>jviolajones</artifactId>-->
+<!--            <version>2.0</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>${project.basedir}/lib/jviolajones2.0.jar-->
+<!--            </systemPath>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>cn.easyproject</groupId>
             <artifactId>easyocr</artifactId>
             <version>3.0.4-RELEASE</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.richard</groupId>
+            <artifactId>marvin155</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.richard</groupId>
+            <artifactId>jviolajones20</artifactId>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
@@ -132,12 +153,14 @@
                 <directory>src\main\resources</directory>
                 <filtering>true</filtering>
             </resource>
-            <resource>
-                <directory>${project.basedir}</directory>
-                <includes>
-                    <include>**/*.*</include>
-                </includes>
-            </resource>
+<!--            <resource>-->
+<!--&lt;!&ndash;                <directory>${project.basedir}</directory>&ndash;&gt;-->
+<!--                <targetPath>BOOT-INF/lib</targetPath>-->
+<!--                <directory>lib</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.*</include>-->
+<!--                </includes>-->
+<!--            </resource>-->
         </resources>
     </build>
 </project>
