@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author: zdthm2010@gmail.com
  * @date: 2019-08-16 00:40
  */
-@Component
 public class TimingShowServiceTask extends ScheduledService<String> {
 
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());

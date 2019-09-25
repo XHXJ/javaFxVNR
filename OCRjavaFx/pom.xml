@@ -20,6 +20,9 @@
             <id>in-project</id>
             <name>In Project Repo</name>
             <url>file://${project.basedir}/lib</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </repository>
     </repositories>
 
@@ -153,14 +156,6 @@
                 <directory>src\main\resources</directory>
                 <filtering>true</filtering>
             </resource>
-<!--            <resource>-->
-<!--&lt;!&ndash;                <directory>${project.basedir}</directory>&ndash;&gt;-->
-<!--                <targetPath>BOOT-INF/lib</targetPath>-->
-<!--                <directory>lib</directory>-->
-<!--                <includes>-->
-<!--                    <include>**/*.*</include>-->
-<!--                </includes>-->
-<!--            </resource>-->
         </resources>
     </build>
 </project>

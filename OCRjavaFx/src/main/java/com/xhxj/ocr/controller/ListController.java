@@ -1,30 +1,33 @@
 package com.xhxj.ocr.controller;
 
+import com.xhxj.ocr.ListStageView;
 import com.xhxj.ocr.dao.SceneDao;
+import de.felixroske.jfxsupport.FXMLController;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.StringConverter;
 import net.sourceforge.tess4j.util.LoggHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
+import java.util.ResourceBundle;
 
 
 /**
@@ -32,20 +35,24 @@ import java.util.List;
  * @author: zdthm2010@gmail.com
  * @date: 2019-08-15 19:34
  */
-@Component
-public class ListController {
+@FXMLController
+public class ListController implements Initializable {
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
+
+    @Autowired
+    ListStageView listStageView;
     @Autowired
     MainController mainController;
+
     //保存获取到的选取名字
     private String selectName = "";
 
     private Stage mainMarquee;
 
     //范围框
-    private Stage interfaceBox;
+    public Stage interfaceBox;
     @FXML
-    private ListView listView;
+    public ListView listView;
     //原文
     @FXML
     public TextArea originalText;
@@ -69,7 +76,7 @@ public class ListController {
     public Button confirm;
     //删除
     @FXML
-    private Button delete;
+    public Button delete;
     //文本框识别
     @FXML
     public CheckBox ocrmodelTextBox;
@@ -94,17 +101,17 @@ public class ListController {
     public ImageView ImageVi;
     @FXML
     public ImageView outImageVi;
+    @FXML
+    public Label cpLabel;
 
-    List<SceneDao> daos = mainController.sceneDaos;
     SceneDao sceneDao;
 
-    @FXML
-    private void initialize() {
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
         ObservableList<String> objects = FXCollections.observableArrayList();
-//        List<String> collect = sceneDaos.parallelStream().map(sceneDao -> sceneDao.getName()).collect(Collectors.toList());
-//        logger.info("拉姆达 :"+collect);
-        daos.forEach(sceneDao -> objects.add(sceneDao.getName()));
+        MainController.sceneDaos.forEach(sceneDao -> objects.add(sceneDao.getName()));
         listView.setItems(objects);
         listView.getSelectionModel().selectedItemProperty().addListener((ChangeListener<String>) (observable, oldValue, newValue) -> {
             if (!"".equals(newValue) && null != newValue) {
@@ -112,7 +119,7 @@ public class ListController {
                 if (interfaceBox != null) {
                     interfaceBox.close();
                 }
-                sceneDao = daos.parallelStream().filter(s -> s.getName().equals(selectName)).findFirst().get();
+                sceneDao = MainController.sceneDaos.parallelStream().filter(s -> s.getName().equals(selectName)).findFirst().get();
                 logger.info("获取选框数据" + sceneDao);
                 //选取的时候应该显示该窗口大小
                 getMainInterfaceBox(sceneDao);
@@ -129,35 +136,63 @@ public class ListController {
 
         //确定键更新值并刷新所有值
         confirm.setOnAction(event -> {
-//            maxWhiteSpaceText.getText()
-////                    maxFontLineWidthText
-////            grayScaleThresholdText
-////                    minTextWidthText
             sceneDao.setMaxWhiteSpace(Integer.parseInt(maxWhiteSpaceText.getText()));
             sceneDao.setMaxFontLineWidth(Integer.parseInt(maxFontLineWidthText.getText()));
             sceneDao.setGrayScaleThreshold(Integer.parseInt(grayScaleThresholdText.getText()));
             sceneDao.setMinTextWidth(Integer.parseInt(minTextWidthText.getText()));
             refreshAll();
         });
+        testButton.setOnAction(event -> {
+            class myTask extends Task<Number> {
+                @Override
+                protected void updateValue(Number value) {
+                    WritableImage writableImage = SwingFXUtils.toFXImage(sceneDao.getOutImage(), null);
+
+                    //复制到剪切板
+                    Clipboard cp = Clipboard.getSystemClipboard();
+                    ClipboardContent content = new ClipboardContent();
+                    content.putImage(writableImage);
+                    cp.setContent(content);
+
+                    cpLabel.setText("处理后的完整图片已保存至剪切板....");
+                    super.updateValue(value);
+                }
+
+                @Override
+                protected Number call() throws Exception {
+                    mainController.getScreenImg();
+                    mainController.orcStart();
+                    refreshAll();
+                    return null;
+                }
+            }
+            myTask myTask = new myTask();
+
+            new Thread(myTask).start();
+
+        });
 
         delete.setOnAction(event -> {
-            daos.removeIf(sceneDao -> sceneDao.getName().equals(selectName));
-            logger.info("删除成功!剩余 :" + mainController.sceneDaos);
+            MainController.sceneDaos.removeIf(sceneDao -> sceneDao.getName().equals(selectName));
+            logger.info("删除成功!剩余 :" + MainController.sceneDaos);
             ObservableList<String> list = FXCollections.observableArrayList();
-            daos.forEach(sceneDao -> list.add(sceneDao.getName()));
+            MainController.sceneDaos.forEach(sceneDao -> list.add(sceneDao.getName()));
             listView.setItems(list);
+            if (sceneDao != null) {
+                deleteAll();
+            }
+            sceneDao = null;
             if (interfaceBox != null) {
                 interfaceBox.close();
             }
         });
-
 
     }
 
     /**
      * 刷新所有信息
      */
-    private void refreshAll(){
+    private void refreshAll() {
         //显示所有信息
         originalText.setText(sceneDao.getOriginal());
         translationText.setText(sceneDao.getTranslation());
@@ -172,8 +207,8 @@ public class ListController {
         if (sceneDao.getOutImage() != null) {
             outImageVi.setImage(SwingFXUtils.toFXImage(sceneDao.getOutImage(), null));
         }
-        if (sceneDao.getOutImageAll().size()>0){
-            outImageAllView.setImage(SwingFXUtils.toFXImage(sceneDao.getOutImageAll().get(0),null));
+        if (sceneDao.getOutImageAll().size() > 0) {
+            outImageAllView.setImage(SwingFXUtils.toFXImage(sceneDao.getOutImageAll().get(0), null));
         }
         ocrmodelTextBox.setSelected(sceneDao.isOcrModelText());
         colorBooleanBox.setSelected(sceneDao.isColorBoolean());
@@ -181,6 +216,27 @@ public class ListController {
         outputFileBox.setSelected(sceneDao.isOutputFile());
         grayLeveSlider.setValue(sceneDao.getGrayLeve());
 
+    }
+
+    /**
+     * 删除后应该清空全部
+     */
+    private void deleteAll() {
+        originalText.setText("");
+        translationText.setText("");
+        maxWhiteSpaceText.setText("");
+        maxFontLineWidthText.setText("");
+        grayScaleThresholdText.setText("");
+        minTextWidthText.setText("");
+        //第一次开启截图时没有运行识别程序时没有图片
+        ImageVi.setImage(null);
+        outImageVi.setImage(null);
+        outImageAllView.setImage(null);
+        ocrmodelTextBox.setSelected(sceneDao.isOcrModelText());
+        colorBooleanBox.setSelected(sceneDao.isColorBoolean());
+        ruleOutSpaceBox.setSelected(sceneDao.isRuleOutSpace());
+        outputFileBox.setSelected(sceneDao.isOutputFile());
+        grayLeveSlider.setValue(sceneDao.getGrayLeve());
     }
 
     /**
@@ -230,31 +286,4 @@ public class ListController {
         an.getChildren().add(hBox);
 
     }
-
-
-    /**
-     * 显示选框管理
-     */
-    public void showMainMarquee() {
-        BorderPane anchorPane = null;
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = fxmlLoader.getClassLoader().getResource("view/MainInterface.fxml");
-            fxmlLoader.setLocation(url);
-            anchorPane = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-        Scene scene = new Scene(anchorPane);
-        mainMarquee = new Stage();
-        mainMarquee.setTitle("翻译区域管理");
-        mainMarquee.setScene(scene);
-        mainMarquee.show();
-
-
-    }
-
-
 }

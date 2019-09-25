@@ -4,6 +4,7 @@ import com.xhxj.ocr.ShowTxtTaskExecutePool;
 import com.xhxj.ocr.TaskExecutePool;
 import com.xhxj.ocr.dao.SceneDao;
 import com.xhxj.ocr.tool.TimingShowServiceTask;
+import de.felixroske.jfxsupport.FXMLController;
 import javafx.application.Platform;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Service;
@@ -34,7 +35,7 @@ import java.util.concurrent.Executor;
  * @author: zdthm2010@gmail.com
  * @date: 2019-08-15 19:38
  */
-@Component
+@FXMLController
 public class ShowTxtController {
     @Autowired
     ShowTxtTaskExecutePool showTxtTaskExecutePool;

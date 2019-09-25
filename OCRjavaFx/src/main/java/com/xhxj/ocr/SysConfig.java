@@ -22,7 +22,7 @@ public class SysConfig {
     //启用二值化输出
     public static Boolean colorBoolean = true;
     //tessdata路径设置
-    public static String tessdataPath = "C:\\Program Files (x86)\\Tesseract-OCR\\tessdata";
+    public static String tessdataPath = "tessdata";
     //翻译语言设置
     public static String ocrLanguage = "jpn";
 

@@ -1,16 +1,18 @@
 package com.xhxj.ocr.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xhxj.ocr.ShowTxtTaskExecutePool;
-import com.xhxj.ocr.SysConfig;
-import com.xhxj.ocr.TaskExecutePool;
+import com.xhxj.ocr.*;
 import com.xhxj.ocr.dao.FanyiBaiduDao;
 import com.xhxj.ocr.dao.FanyiBaiduTxtDao;
 import com.xhxj.ocr.dao.SceneDao;
-import com.xhxj.ocr.tool.ImagePicture;
 import com.xhxj.ocr.tool.baidu.TransApi;
 import com.xhxj.ocr.tool.imageUtil.BinaryTest;
+import de.felixroske.jfxsupport.FXMLController;
 import de.felixroske.jfxsupport.GUIState;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,22 +29,20 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import marvin.MarvinDefinitions;
 import marvin.image.MarvinImage;
 import marvin.image.MarvinSegment;
-import marvin.io.MarvinImageIO;
-import marvin.util.MarvinPluginLoader;
 import net.sourceforge.tess4j.*;
-import net.sourceforge.tess4j.util.ImageHelper;
 import net.sourceforge.tess4j.util.LoggHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -62,7 +62,7 @@ import static marvin.MarvinPluginCollection.findTextRegions;
  * @author: zdthm2010@gmail.com
  * @date: 2019-08-15 19:34
  */
-@Controller
+@FXMLController
 public class MainController {
     @Autowired
     TaskExecutePool taskExecutePool;
@@ -151,41 +151,40 @@ public class MainController {
 
     @FXML
     public void initialize() {
+        logger.info("下划线君的OCR翻译机 v" + version);
         //读取配置文件
         new SysConfig().readSysConfig();
         primary = GUIState.getStage();
         primary.setTitle("下划线君的OCR翻译机 v" + version);
         Executor executor = taskExecutePool.myTaskAsyncPool();
-        //开始识别
-        mainStart.setOnAction(event -> {
-            //判断是否有线程在运行
-            if (flag) {
-                executor.execute(() -> {
-                    //线程开始运行flag为false避免新的识别线程加入
-                    flag = false;
-                    if (sceneDaos.size() > 0) {
-                        logger.info("开始整个识别流程!识别间隔 :" + threadSleep);
-                        startInt = true;
-                        while (startInt) {
-                            try {
-                                timingGetScreenImg(null);
-                                Thread.sleep(threadSleep);
-                            } catch (Exception e) {
-                                logger.error("识别线程出错 " + e.getMessage());
-                            }
-                        }
-                    }
-                    logger.info("识别已停止!");
-                    //识别已结束开放flag
-                    flag = true;
-                });
-            } else {
-                logger.info("已有识别线程在运行,请勿重复开始");
-            }
 
+        //识别任务
+        class MyOcrThread extends ScheduledService<Boolean> {
+            @Override
+            protected Task<Boolean> createTask() {
+                return new Task<Boolean>() {
+                    @Override
+                    protected Boolean call() throws Exception {
+                        timingGetScreenImg(null);
+                        return null;
+                    }
+                };
+            }
+        }
+        MyOcrThread myOcrThread = new MyOcrThread();
+        mainStart.setOnAction(event -> {
+            myOcrThread.setPeriod(Duration.millis(threadSleep));
+            myOcrThread.setExecutor(executor);
+            myOcrThread.restart();
+            primary.setTitle("下划线君的OCR翻译机 v" + version + " 状态:识别中...");
+            logger.info("开始整个识别流程!识别间隔 :" + threadSleep);
         });
-        //停止
-        mainStop.setOnAction(event -> ocrStop());
+        mainStop.setOnAction(event -> {
+            myOcrThread.cancel();
+            primary.setTitle("下划线君的OCR翻译机 v" + version);
+            logger.info("识别停止!");
+        });
+
         //打开选项
         showOptionMenuItem.setOnAction(event -> showOptionController.showOption());
         //测试
@@ -193,27 +192,34 @@ public class MainController {
         //选取翻译位置
         getSceneDaoImgButton.setOnAction(event -> choose());
         //管理选择框
-        showMainMarqueeButton.setOnAction(event -> listController.showMainMarquee());
+        showMainMarqueeButton.setOnAction(event -> OrcApplication.showView(ListStageView.class, Modality.NONE));
         //显示文本框
         startShowTextButton.setOnAction(event -> showTxtController.startShowText());
         //关闭文本框
         offShowTextButton.setOnAction(event -> showTxtController.offShowText());
 
-
-        executor.execute(() -> {
-            while (true) {
-                try {
-                    //每一秒去切换主界面的图片
-                    Thread.sleep(1000);
-                    if (sceneDaos.size() > 0 && sceneDaos.get(0).getOutImage() != null) {
-                        WritableImage writableImage = SwingFXUtils.toFXImage(sceneDaos.get(0).getOutImage(), null);
-                        iv2.setImage(writableImage);
+        class CyclicGraph extends ScheduledService<Number> {
+            @Override
+            protected Task<Number> createTask() {
+                return new Task<Number>() {
+                    @Override
+                    protected Number call() throws Exception {
+                        if (sceneDaos.size() > 0 && sceneDaos.get(0).getOutImage() != null) {
+                            WritableImage writableImage = SwingFXUtils.toFXImage(sceneDaos.get(0).getOutImage(), null);
+                            iv2.setImage(writableImage);
+                        }
+                        return null;
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                };
             }
-        });
+        }
+        CyclicGraph cyclicGraph = new CyclicGraph();
+
+        //启用图片更换线程
+        cyclicGraph.setDelay(Duration.seconds(1));
+        cyclicGraph.setPeriod(Duration.millis(1000));
+        cyclicGraph.setExecutor(executor);
+        cyclicGraph.start();
     }
 
     /**
@@ -307,6 +313,12 @@ public class MainController {
 //                getScreenImg();
                 //创建选框对象保存
                 getSceneDaoImg();
+                //更新翻译管理
+                ObservableList<String> objects = FXCollections.observableArrayList();
+                MainController.sceneDaos.forEach(sceneDao -> objects.add(sceneDao.getName()));
+                if (listController.listView != null) {
+                    listController.listView.setItems(objects);
+                }
             });
         });
 
@@ -333,10 +345,10 @@ public class MainController {
             primary.setIconified(false);
 
             //复制到剪切板
-            Clipboard cp = Clipboard.getSystemClipboard();
-            ClipboardContent content = new ClipboardContent();
-            content.putImage(writableImage);
-            cp.setContent(content);
+//            Clipboard cp = Clipboard.getSystemClipboard();
+//            ClipboardContent content = new ClipboardContent();
+//            content.putImage(writableImage);
+//            cp.setContent(content);
 
             SceneDao sceneDao = new SceneDao();
             sceneDao.setSceneX_start(sceneX_start);
@@ -593,7 +605,7 @@ public class MainController {
     /**
      * ocr识别方法
      */
-    private void orcStart() {
+    public void orcStart() {
         final CountDownLatch latch = new CountDownLatch(sceneDaos.size());
         Executor executor = taskExecutePool.myTaskAsyncPool();
         //判断是否执行了之前的截图方法,并且截图文件保存了
@@ -614,18 +626,7 @@ public class MainController {
                     Map<Integer, BufferedImage> allBufferedImage = new HashMap<>();
                     if (sceneDao.isOcrModelText()) {
                         //设置marvin路径
-
-                        /**
-                         *
-                         *TODO 打包成jar包后无法加载marvin,报错java.lang.NoClassDefFoundError: marvin/MarvinDefinitions
-                         * 所需文件已打包为项目根目录下marvin文件夹
-                         * 附上国外论坛 :https://groups.google.com/forum/#!forum/marvin-project
-                         * 官网 : http://marvinproject.sourceforge.net/
-                         * 问题描述 :marvinproject是一个外置插件 没有maven整合,在我尝试整合到项目中的时候出现了问题,将项目打包成jar包时无法运行.
-                         *
-                         */
-
-                        MarvinDefinitions.setImagePluginPath(new File("H:/test/marvin/plugins/image").getAbsolutePath() + "/");
+                        MarvinDefinitions.setImagePluginPath(new File("marvin/plugins/image").getAbsolutePath() + "/");
                         MarvinImage marvinImage = new MarvinImage(image);
                         //识别到的文本框
                         List<MarvinSegment> segments = findTextRegions(marvinImage, sceneDao.getMaxWhiteSpace(), sceneDao.getMaxFontLineWidth(), sceneDao.getMinTextWidth(), sceneDao.getGrayScaleThreshold());
@@ -645,7 +646,7 @@ public class MainController {
                                     } catch (Exception e) {
                                         //这是一个因为坐标没有正确获取报的错,可能是位置被减到了负数...如果对准确性有要求可以处理一下这个bug
                                         //需要看用户设置的参数
-                                        logger.error("orcStart() 标记文本框时报错 :" + e.getMessage());
+                                        logger.warn("orcStart() 标记文本框时报错 :" + e.getMessage());
                                     }
                                 }
                             }

@@ -1,6 +1,7 @@
 package com.xhxj.ocr.controller;
 
 import com.xhxj.ocr.SysConfig;
+import de.felixroske.jfxsupport.FXMLController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,13 +18,14 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URL;
 
-@Component
+
 /**
-  设置选项
-  @description:
- * @author: zdthm2010@gmail.com
+ 设置选项
+ @description:
+  * @author: zdthm2010@gmail.com
  * @date: 2019-08-15 19:34
  */
+@FXMLController
 public class ShowOptionController {
     private Stage ocrTxtBox;
     @FXML
@@ -91,3 +93,5 @@ public class ShowOptionController {
         });
     }
 }
+
+
