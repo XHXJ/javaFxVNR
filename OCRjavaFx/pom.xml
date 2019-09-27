@@ -146,7 +146,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>8.8.3</version>
                 <configuration>
-                    <mainClass>com.xhxj.ocr.OrcApplication</mainClass>
+                    <mainClass>com.xhxj.ocr.OcrApplication</mainClass>
                     <vendor>xhxj</vendor>
                 </configuration>
             </plugin>

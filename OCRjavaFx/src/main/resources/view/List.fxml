@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xhxj.ocr.controller.ListController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="50.0" minWidth="50.0" prefHeight="541.0" prefWidth="915.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xhxj.ocr.controller.ListController">
    <left>
       <VBox style="-fx-background-color: #E6E6E6;" BorderPane.alignment="TOP_LEFT">
          <children>
@@ -17,7 +17,7 @@
                   <Insets left="15.0" top="15.0" />
                </padding>
             </Label>
-            <ListView fx:id="listView" prefWidth="90.0" VBox.vgrow="ALWAYS">
+            <ListView fx:id="listView" prefWidth="90.0" VBox.vgrow="SOMETIMES">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -31,14 +31,14 @@
    <center>
       <VBox>
          <children>
-            <GridPane style="-fx-background-color: #E6E6E6;" VBox.vgrow="ALWAYS">
+            <GridPane prefHeight="300.0" prefWidth="800.0" style="-fx-background-color: #E6E6E6;" VBox.vgrow="ALWAYS">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="240.0" minHeight="0.0" prefHeight="239.0" vgrow="ALWAYS" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints minHeight="0.0" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
                   <Label text="原图 :">
@@ -51,13 +51,21 @@
                         <Insets left="5.0" top="5.0" />
                      </GridPane.margin>
                   </Label>
-                  <ImageView fx:id="ImageVi" fitHeight="250.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
-                  <ImageView fx:id="outImageVi" fitHeight="250.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS" />
+                  <HBox fx:id="imageBox" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fx:id="ImageVi" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <ImageView fx:id="outImageVi" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </HBox>
                </children>
             </GridPane>
-            <HBox prefHeight="300.0">
+            <HBox VBox.vgrow="SOMETIMES">
                <children>
-                  <VBox prefHeight="300.0" prefWidth="300.0">
+                  <VBox prefHeight="300.0" prefWidth="300.0" HBox.hgrow="SOMETIMES">
                      <children>
                         <Label text="存储的原文">
                            <padding>
@@ -80,9 +88,18 @@
                         <Insets left="5.0" />
                      </padding>
                   </VBox>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="749.0" minWidth="10.0" prefWidth="711.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
                      <children>
-                        <GridPane alignment="CENTER" hgap="2.0" layoutX="14.0" layoutY="6.0" style="-fx-border-color: #9999;" AnchorPane.topAnchor="6.0">
+                        <GridPane alignment="CENTER" hgap="2.0" style="-fx-border-color: #9999;">
                           <columnConstraints>
                             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
                               <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
@@ -114,8 +131,16 @@
                               <Insets left="5.0" right="5.0" />
                            </padding>
                         </GridPane>
-                        <HBox alignment="CENTER" layoutX="436.0" layoutY="251.0" prefHeight="35.0" prefWidth="200.0" spacing="10.0">
+                        <Pane prefHeight="45.0" style="-fx-background-color: #9999;" GridPane.rowIndex="2">
                            <children>
+                              <ImageView fx:id="outImageAllView" fitHeight="45.0" fitWidth="610.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true" />
+                              <Button fx:id="nextButton" layoutX="-6.0" layoutY="34.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="41.0" text="切换" />
+                              <Label layoutX="546.0" layoutY="19.0" text="二值化预览" />
+                           </children>
+                        </Pane>
+                        <HBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="3">
+                           <children>
+                              <Label fx:id="cpLabel" prefHeight="15.0" prefWidth="299.0" text="" textFill="#ff0040" />
                               <Button fx:id="testButton" mnemonicParsing="false" text="测试" />
                               <Button fx:id="confirm" mnemonicParsing="false" text="确认" />
                               <Button fx:id="delete" mnemonicParsing="false" text="删除" />
@@ -124,8 +149,7 @@
                               <Insets />
                            </opaqueInsets>
                         </HBox>
-                        <Label layoutX="14.0" layoutY="261.0" prefHeight="15.0" prefWidth="299.0" text="" textFill="#ff0040" fx:id="cpLabel"/>
-                        <HBox layoutX="14.0" layoutY="140.0" prefHeight="37.0" prefWidth="637.0" spacing="10.0">
+                        <HBox spacing="10.0" GridPane.rowIndex="1">
                            <children>
                               <Label text="阀值:" />
                               <Slider fx:id="grayLeveSlider" max="255.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" value="180.0" />
@@ -134,14 +158,11 @@
                               <CheckBox fx:id="outputFileBox" mnemonicParsing="false" text="输出到文件夹" />
                            </children>
                         </HBox>
-                        <Pane layoutX="45.0" layoutY="197.0" prefHeight="50.0" prefWidth="610.0" style="-fx-background-color: #9999;">
-                           <children>
-                              <ImageView fx:id="outImageAllView" fitHeight="50.0" fitWidth="610.0" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </Pane>
-                        <Label layoutX="14.0" layoutY="182.0" text="预览:" />
                      </children>
-                  </AnchorPane>
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </GridPane>
                </children>
             </HBox>
          </children>

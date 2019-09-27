@@ -2,6 +2,7 @@ package com.xhxj.ocr.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xhxj.ocr.*;
+import com.xhxj.ocr.View.ListStageView;
 import com.xhxj.ocr.dao.FanyiBaiduDao;
 import com.xhxj.ocr.dao.FanyiBaiduTxtDao;
 import com.xhxj.ocr.dao.SceneDao;
@@ -192,7 +193,7 @@ public class MainController {
         //选取翻译位置
         getSceneDaoImgButton.setOnAction(event -> choose());
         //管理选择框
-        showMainMarqueeButton.setOnAction(event -> OrcApplication.showView(ListStageView.class, Modality.NONE));
+        showMainMarqueeButton.setOnAction(event -> OcrApplication.showView(ListStageView.class, Modality.NONE));
         //显示文本框
         startShowTextButton.setOnAction(event -> showTxtController.startShowText());
         //关闭文本框
@@ -638,10 +639,10 @@ public class MainController {
                                 s.y2 += 5;
                                 if (s.y1 >= 0 && (s.x2 - s.x1) > 0 && (s.y2 - s.y1) > 0) {
                                     try {
-                                        marvinImage.drawRect(s.x1 - 2, s.y1 - 2, s.x2 - s.x1, s.y2 - s.y1, Color.red);
+                                        marvinImage.drawRect(s.x1 - 2, s.y1 - 5, s.x2 - s.x1, s.y2 - s.y1 +5, Color.red);
 //                                        marvinImage.drawRect(s.x1 - 2, s.y1 - 2, (s.x2 - s.x1) - 2, (s.y2 - s.y1) - 2, Color.red);
                                         //分为大小文本截图
-                                        BufferedImage subimage = image.getSubimage(s.x1 - 2, s.y1 - 2, s.x2 - s.x1, s.y2 - s.y1);
+                                        BufferedImage subimage = image.getSubimage(s.x1 -2 , s.y1 -5, s.x2 - s.x1, s.y2 - s.y1+5);
                                         allBufferedImage.put(i, subimage);
                                     } catch (Exception e) {
                                         //这是一个因为坐标没有正确获取报的错,可能是位置被减到了负数...如果对准确性有要求可以处理一下这个bug

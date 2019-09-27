@@ -1,8 +1,11 @@
 package com.xhxj.ocr.controller;
 
-import com.xhxj.ocr.ListStageView;
+import com.xhxj.ocr.OcrApplication;
+import com.xhxj.ocr.View.ListStageView;
+import com.xhxj.ocr.View.SelectBoxView;
 import com.xhxj.ocr.dao.SceneDao;
 import de.felixroske.jfxsupport.FXMLController;
+import de.felixroske.jfxsupport.GUIState;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +13,8 @@ import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -19,6 +24,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import net.sourceforge.tess4j.util.LoggHelper;
@@ -28,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 /**
@@ -39,10 +46,11 @@ import java.util.ResourceBundle;
 public class ListController implements Initializable {
     private static final Logger logger = LoggerFactory.getLogger(new LoggHelper().toString());
 
-    @Autowired
-    ListStageView listStageView;
+
     @Autowired
     MainController mainController;
+    @Autowired
+    ListStageView listStageView;
 
     //保存获取到的选取名字
     private String selectName = "";
@@ -95,7 +103,9 @@ public class ListController implements Initializable {
     //二值化后的图片
     @FXML
     public ImageView outImageAllView;
-
+    //下一张图
+    @FXML
+    public Button nextButton;
 
     @FXML
     public ImageView ImageVi;
@@ -104,12 +114,13 @@ public class ListController implements Initializable {
     @FXML
     public Label cpLabel;
 
-    SceneDao sceneDao;
+    public HBox imageBox;
+    private SceneDao sceneDao;
 
+    private AtomicInteger count = new AtomicInteger();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         ObservableList<String> objects = FXCollections.observableArrayList();
         MainController.sceneDaos.forEach(sceneDao -> objects.add(sceneDao.getName()));
         listView.setItems(objects);
@@ -142,18 +153,26 @@ public class ListController implements Initializable {
             sceneDao.setMinTextWidth(Integer.parseInt(minTextWidthText.getText()));
             refreshAll();
         });
+
+        nextButton.setOnAction(event -> {
+            if (sceneDao.getOutImageAll().size()>0){
+                if (count.get()>=sceneDao.getOutImageAll().size()){
+                    count.set(0);
+                }
+                outImageAllView.setImage(SwingFXUtils.toFXImage(sceneDao.getOutImageAll().get(count.get()),null));
+                count.incrementAndGet();
+            }
+        });
         testButton.setOnAction(event -> {
             class myTask extends Task<Number> {
                 @Override
                 protected void updateValue(Number value) {
                     WritableImage writableImage = SwingFXUtils.toFXImage(sceneDao.getOutImage(), null);
-
                     //复制到剪切板
                     Clipboard cp = Clipboard.getSystemClipboard();
                     ClipboardContent content = new ClipboardContent();
                     content.putImage(writableImage);
                     cp.setContent(content);
-
                     cpLabel.setText("处理后的完整图片已保存至剪切板....");
                     super.updateValue(value);
                 }
@@ -181,7 +200,7 @@ public class ListController implements Initializable {
             if (sceneDao != null) {
                 deleteAll();
             }
-            sceneDao = null;
+
             if (interfaceBox != null) {
                 interfaceBox.close();
             }
@@ -237,7 +256,11 @@ public class ListController implements Initializable {
         ruleOutSpaceBox.setSelected(sceneDao.isRuleOutSpace());
         outputFileBox.setSelected(sceneDao.isOutputFile());
         grayLeveSlider.setValue(sceneDao.getGrayLeve());
+        sceneDao = null;
     }
+
+    @Autowired
+    SelectBoxView selectBoxView;
 
     /**
      * 显示选择框

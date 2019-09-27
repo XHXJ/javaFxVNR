@@ -2,26 +2,104 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17551369-9d68-4fc6-ac3d-6d7e08061942" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/javaFxVNR_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OCRjavaFx/lib/jviolajones2.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OCRjavaFx/lib/marvin_1.5.5.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/imageUtil/BinaryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/imageUtil/CutImg.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/imageUtil/ImageCutUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_richard_jviolajones20_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_richard_marvin155_1_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/View/SelectBoxView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/ASK_AN_EXPERT.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/Discussion_Group.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/MarvinDefinitions.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/framework/marvin_1.5.5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/lib/junit-4.7.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.artistic.mosaic.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.artistic.television.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.background.determineFixedCameraBackground.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.background.determineSceneBackground.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.blur.gaussianBlur.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.blur.pixelize.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.blackAndWhite.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.brightnessAndContrast.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.colorChannel.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.emboss.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.grayScale.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.invert.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.sepia.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.skinColorDetection.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.thresholding.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.color.thresholdingNeighborhood.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.combine.combineByMask.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.combine.combineByTransparency.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.combine.mergePhotos.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.convolution.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.corner.harris.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.corner.moravec.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.corner.susan.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.difference.differenceColor.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.difference.differenceGray.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.difference.differentRegions.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.edge.edgeDetector.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.edge.prewitt.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.edge.roberts.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.edge.sobel.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.equalization.histogramEqualization.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.fill.boundaryFill.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.halftone.circles.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.halftone.dithering.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.halftone.errorDiffusion.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.halftone.rylanders.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.histogram.colorHistogram.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.histogram.grayHistogram.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.interfaceTest.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.morphological.boundary.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.morphological.closing.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.morphological.dilation.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.morphological.erosion.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.morphological.opening.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.pattern.correlation.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.pattern.findColorPattern.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.pattern.findSubimage.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.pattern.findTextRegions.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.pattern.harrisPlessey.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.pattern.patternRecognition.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.quantization.colorQuantization.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.quantization.grayScaleQuantization.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.render.grayGradient.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.render.iteratedFunctionSystem.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.render.juliaSet.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.render.lindenmayer.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.render.mandelbrot.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.render.text.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.restoration.noiseReduction.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.segmentation.crop.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.segmentation.floodfillSegmentation.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.segmentation.imageSlicer.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.statistical.maximum.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.statistical.median.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.statistical.minimum.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.statistical.mode.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.steganography.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.subtract.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.texture.tileTexture.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.transform.flip.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.transform.rotate.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.transform.scale.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.transform.skew.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.image.transform.watershed.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/marvin/plugins/image/org.marvinproject.ml.kmeans.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tessdata/jpn.traineddata" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/marvin/READ-ME.html" beforeDir="false" afterPath="$PROJECT_DIR$/marvin/READ-ME.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OCRjavaFx/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/SysConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/SysConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/TaskExecutePool.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/TaskExecutePool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/ListStageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/View/ListStageView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/MainStageView.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/View/MainStageView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/OrcApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/OcrApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ListController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ShowOptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ShowOptionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/dao/SceneDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/dao/SceneDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/ImagePicture.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/ImagePicture.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/MainInterface.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/MainInterface.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/OcrTxt.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/OcrTxt.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ShowTxtController.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/ShowTxtController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/tool/TimingShowServiceTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/TimingShowServiceTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/List.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/OCRjavaFx/src/main/resources/view/List.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OCRjavaFx/tessdata/jpn.traineddata" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -214,7 +292,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="jdk.selected.JAVA_MODULE" value="1.8 (2)" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/OCRjavaFx/src/main/java/com" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/OCRjavaFx" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -275,7 +353,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Test">
+  <component name="RunManager" selected="Spring Boot.OcrApplication">
     <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.xhxj.ocr.Test" />
       <module name="javaFxVNR" />
@@ -399,6 +477,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="OcrApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="javaFxVNR" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.xhxj.ocr.OcrApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="OrcApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="javaFxVNR" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.xhxj.ocr.OrcApplication" />
@@ -408,12 +493,13 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Test" />
       <item itemvalue="JUnit.TextRegions.test01 (1)" />
       <item itemvalue="JUnit.TextRegions.TextRegions" />
       <item itemvalue="JUnit.TextRegions" />
       <item itemvalue="JUnit.test4.test01" />
       <item itemvalue="Spring Boot.OrcApplication" />
-      <item itemvalue="Application.Test" />
+      <item itemvalue="Spring Boot.OcrApplication" />
     </list>
     <recent_temporary>
       <list>
@@ -430,7 +516,12 @@
       <serviceView>
         <option name="contentProportion" value="0.04339092" />
         <treeState>
-          <expand />
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@f1ecb8f" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+          </expand>
           <select />
         </treeState>
       </serviceView>
@@ -507,6 +598,9 @@
       <workItem from="1569147772533" duration="8950000" />
       <workItem from="1569165972311" duration="17868000" />
       <workItem from="1569188749753" duration="340000" />
+      <workItem from="1569456308834" duration="1361000" />
+      <workItem from="1569490789801" duration="8406000" />
+      <workItem from="1569548341219" duration="8544000" />
     </task>
     <task id="LOCAL-00001" summary="从头理了一遍多线程&#10;重新添加了tess4j,识别效率比之前快500ms左右&#10;添加了主窗口显示目前识别图像&#10;取消了输出成文件再识别,减少io&#10;添加了选项识别语言选择,tessdata路径指定">
       <created>1565820515585</created>
@@ -641,32 +735,6 @@
     <MESSAGE value="取消了二值化阀值功能,增加了配置文件功能,修复了英文等文字文本框无文字bug.删除了不必要的代码" />
     <MESSAGE value="修复了英文或其他语言文本框无法显示,优化了显示代码." />
     <option name="LAST_COMMIT_MESSAGE" value="修复了英文或其他语言文本框无法显示,优化了显示代码." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
-          <line>629</line>
-          <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
-          <line>773</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
-          <line>751</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/OCRjavaFx/src/main/java/com/xhxj/ocr/controller/MainController.java</url>
-          <line>680</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/xhxjVNR$OrcApplication.ic" NAME="OrcApplication Coverage Results" MODIFIED="1565705362318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

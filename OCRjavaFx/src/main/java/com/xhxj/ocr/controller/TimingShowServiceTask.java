@@ -1,15 +1,10 @@
-package com.xhxj.ocr.tool;
+package com.xhxj.ocr.controller;
 
-import com.xhxj.ocr.controller.MainController;
-import com.xhxj.ocr.dao.SceneDao;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import net.sourceforge.tess4j.util.LoggHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @description:

@@ -1,4 +1,4 @@
-package com.xhxj.ocr;
+package com.xhxj.ocr.View;
 
 import de.felixroske.jfxsupport.AbstractFxmlView;
 import de.felixroske.jfxsupport.FXMLView;
