@@ -1,16 +1,12 @@
 package com.xhxj.ocr;
 
-import com.xhxj.ocr.View.MainStageView;
+import com.xhxj.ocr.view.MainStageView;
 import de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
-
-import java.util.Collection;
 
 /**
  * @description: 

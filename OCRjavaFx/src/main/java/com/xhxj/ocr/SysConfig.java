@@ -24,7 +24,7 @@ public class SysConfig {
     //tessdata路径设置
     public static String tessdataPath = "tessdata";
     //翻译语言设置
-    public static String ocrLanguage = "jpn";
+    public static String ocrLanguage = "jpn+equ";
 
     /**
      * fastjson通过get方法才能获取到成员变量,方便之后输出配置文件

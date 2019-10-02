@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 public class BinaryTest {
     public static BufferedImage getImagePicture(BufferedImage image,double sw) throws Exception {
-        image = ImageHelper.getScaledInstance(image, (int) (image.getWidth() * 2), (int) (image.getHeight() * 2));
+        image = ImageHelper.getScaledInstance(image, (int) (image.getWidth() * 3), (int) (image.getHeight() * 3));
         image = grayImage(image);
         image = binaryImage(image,sw);
         image = denoise(image);

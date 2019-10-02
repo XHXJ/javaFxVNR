@@ -1,15 +1,7 @@
-package com.xhxj.ocr.View;
+package com.xhxj.ocr.view;
 
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import com.sun.javafx.jmx.MXNodeAlgorithm;
-import com.sun.javafx.jmx.MXNodeAlgorithmContext;
-import com.sun.javafx.sg.prism.NGNode;
 import de.felixroske.jfxsupport.AbstractFxmlView;
 import de.felixroske.jfxsupport.FXMLView;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.stage.Stage;
 
 /**
  * @description: 翻译区域管理界面
