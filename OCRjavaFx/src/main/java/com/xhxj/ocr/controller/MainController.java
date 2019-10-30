@@ -768,19 +768,21 @@ public class MainController {
 //                    instance.setPageSegMode(ITessAPI.TessPageSegMode.PSM_AUTO_OSD);
         //识别后的文字
         StringBuilder ocrString = new StringBuilder();
-        List<Word> words = instance.getWords(image, TessAPI.TessPageIteratorLevel.RIL_SYMBOL);
+        //RIL_SYMBOL 不会识别空格
+        List<Word> words = instance.getWords(image, TessAPI.TessPageIteratorLevel.RIL_WORD);
         words.forEach(word -> {
             if (word.getConfidence() > 70) {
                 String text = word.getText();
                 //开启去除空格
                 if (sceneDao.isRuleOutSpace()) {
                     text = text.replace(" ", "");
+                }else {
+                    text += " ";
                 }
                 ocrString.append(text);
             }
         });
 //                    String replace = new String(orc).replace(" ", "").replace("\n", "");
-
         long sum = new Date().getTime() - stardata.getTime();
         logger.info("完成识别 : \n" + ocrString + "\n共耗时 : " + sum);
 
@@ -814,5 +816,4 @@ public class MainController {
         }
         return false;
     }
-
 }

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.xhxj</groupId>
     <artifactId>javaFxVNR</artifactId>
-    <version>0.0.9-alpha</version>
+    <version>0.1.0-alpha</version>
     <name>orc</name>
     <packaging>jar</packaging>
     <description>javaFxVNR</description>
